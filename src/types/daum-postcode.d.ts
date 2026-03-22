@@ -21,9 +21,7 @@ declare global {
 
   interface Window {
     daum?: {
-      postcode?: {
-        Postcode?: DaumPostcodeConstructor;
-      };
+      Postcode?: DaumPostcodeConstructor;
     };
   }
 }
