@@ -1,18 +1,26 @@
 import type { TrackResponse } from '@/types/api';
+import { getRedisClient } from '@/lib/redis';
 
-const resultStore = new Map<string, { data: TrackResponse; createdAt: number }>();
-const TTL_MS = 24 * 60 * 60 * 1000;
+const TTL_SEC = 24 * 60 * 60;
+const KEY_PREFIX = 'result';
+const keyOf = (queryId: string) => `${KEY_PREFIX}:${queryId}`;
 
-export const setResult = (queryId: string, data: TrackResponse): void => {
-  resultStore.set(queryId, { data, createdAt: Date.now() });
+export const setResult = async (queryId: string, data: TrackResponse): Promise<void> => {
+  const client = await getRedisClient();
+  await client.set(keyOf(queryId), JSON.stringify(data), {
+    EX: TTL_SEC
+  });
 };
 
-export const getResultById = (queryId: string): TrackResponse | null => {
-  const entry = resultStore.get(queryId);
-  if (!entry) return null;
-  if (Date.now() - entry.createdAt > TTL_MS) {
-    resultStore.delete(queryId);
+export const getResultById = async (queryId: string): Promise<TrackResponse | null> => {
+  const client = await getRedisClient();
+  const raw = await client.get(keyOf(queryId));
+  if (!raw) return null;
+
+  try {
+    return JSON.parse(raw) as TrackResponse;
+  } catch {
+    await client.del(keyOf(queryId));
     return null;
   }
-  return entry.data;
 };

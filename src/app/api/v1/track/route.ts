@@ -4,7 +4,9 @@ import { buildMockTrackResponse, MOCK_COURIERS } from '@/lib/mock-data';
 import { ERROR_MESSAGES } from '@/lib/constants';
 import { setResult } from '@/lib/result-store';
 import { isDestinationValid, isTrackingNumberValid, sanitizeTrackingNumber } from '@/lib/validators';
-import type { ApiErrorCode } from '@/types/api';
+import type { ApiErrorCode, TrackResponse } from '@/types/api';
+
+export const runtime = 'nodejs';
 
 const requestLog = new Map<string, number[]>();
 const MAX_REQUESTS_PER_MIN = 20;
@@ -61,9 +63,10 @@ export async function POST(request: NextRequest) {
     return buildError('DESTINATION_REQUIRED', 400);
   }
 
+  const queryId = `q_${randomUUID().slice(0, 12)}`;
+  let response: TrackResponse;
   try {
-    const queryId = `q_${randomUUID().slice(0, 12)}`;
-    const response = buildMockTrackResponse({
+    response = buildMockTrackResponse({
       queryId,
       courierCode: courier.code,
       courierName: courier.name,
@@ -71,10 +74,15 @@ export async function POST(request: NextRequest) {
       destinationBaseAddress: baseAddress,
       destinationPostalCode: postalCode
     });
-
-    setResult(queryId, response);
-    return NextResponse.json(response);
   } catch {
     return buildError('NOT_FOUND', 404);
   }
+
+  try {
+    await setResult(queryId, response);
+  } catch {
+    return buildError('SYSTEM_ERROR', 500);
+  }
+
+  return NextResponse.json(response);
 }
