@@ -22,8 +22,7 @@ export const SearchForm = () => {
   const [trackingNumber, setTrackingNumber] = useState('');
   const [destination, setDestination] = useState({
     postalCode: '',
-    baseAddress: '',
-    detailAddress: ''
+    baseAddress: ''
   });
   const [trackingError, setTrackingError] = useState<string>('');
   const [destinationError, setDestinationError] = useState<string>('');
@@ -56,8 +55,7 @@ export const SearchForm = () => {
       trackingNumber: sanitized,
       destination: {
         postalCode: destination.postalCode,
-        baseAddress: destination.baseAddress,
-        detailAddress: destination.detailAddress
+        baseAddress: destination.baseAddress
       }
     });
 
