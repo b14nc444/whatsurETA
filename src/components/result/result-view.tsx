@@ -11,7 +11,6 @@ import { SummaryCard } from '@/components/result/summary-card';
 import { ProgressTable } from '@/components/result/progress-table';
 import { EtaCard } from '@/components/result/eta-card';
 import { ReasonCard } from '@/components/result/reason-card';
-import { DataSourceBadge } from '@/components/result/data-source-badge';
 import { RefreshGuide } from '@/components/result/refresh-guide';
 import { AdSlot } from '@/components/common/ad-slot';
 
@@ -69,7 +68,6 @@ export const ResultView = ({ queryId }: Props) => {
         hidden={etaHidden}
       />
       <ReasonCard reason={data.prediction.reason} />
-      <DataSourceBadge dataSource={data.dataSource} isStale={data.isStale} queriedAt={data.meta.queriedAt} />
       <RefreshGuide recommendedRefreshAfterMin={data.meta.recommendedRefreshAfterMin} />
       <AdSlot slot="C" />
     </div>
