@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { useResult } from '@/hooks/use-result';
 import { ETA_HIDDEN_STATUSES, ERROR_MESSAGES } from '@/lib/constants';
 import { trackEvent } from '@/lib/events';
@@ -19,6 +20,7 @@ type Props = {
 };
 
 export const ResultView = ({ queryId }: Props) => {
+  const router = useRouter();
   const { data, loading, error } = useResult(queryId);
 
   const etaHidden = useMemo(() => {
@@ -50,6 +52,14 @@ export const ResultView = ({ queryId }: Props) => {
 
   return (
     <div className="space-y-4">
+      <div className="card flex items-center justify-between">
+        <button type="button" className="btn-secondary" onClick={() => router.back()}>
+          뒤로가기
+        </button>
+        <button type="button" className="btn-primary" onClick={() => window.location.reload()}>
+          새로고침
+        </button>
+      </div>
       <SummaryCard tracking={data.tracking} />
       <AdSlot slot="B" />
       <ProgressTable progresses={data.tracking.progresses} />
