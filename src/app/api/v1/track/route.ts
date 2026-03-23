@@ -1,15 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { randomUUID } from 'crypto';
-import { buildMockTrackResponse, MOCK_COURIERS } from '@/lib/mock-data';
 import { ERROR_MESSAGES } from '@/lib/constants';
+import { trackParcel } from '@/lib/delivery-service';
+import { checkRateLimit } from '@/lib/rate-limit';
 import { setResult } from '@/lib/result-store';
 import { isDestinationValid, isTrackingNumberValid, sanitizeTrackingNumber } from '@/lib/validators';
-import type { ApiErrorCode, TrackResponse } from '@/types/api';
+import type { ApiErrorCode } from '@/types/api';
 
 export const runtime = 'nodejs';
-
-const requestLog = new Map<string, number[]>();
-const MAX_REQUESTS_PER_MIN = 20;
 
 const buildError = (code: ApiErrorCode, status: number) =>
   NextResponse.json(
@@ -22,33 +19,26 @@ const buildError = (code: ApiErrorCode, status: number) =>
     { status }
   );
 
-const checkRateLimit = (key: string): boolean => {
-  const now = Date.now();
-  const before = requestLog.get(key) ?? [];
-  const recent = before.filter((time) => now - time <= 60_000);
-  if (recent.length >= MAX_REQUESTS_PER_MIN) {
-    requestLog.set(key, recent);
-    return false;
-  }
-  recent.push(now);
-  requestLog.set(key, recent);
-  return true;
-};
-
 export async function POST(request: NextRequest) {
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'local';
-  if (!checkRateLimit(ip)) {
+  let allowed = false;
+  try {
+    allowed = await checkRateLimit(ip);
+  } catch {
+    return buildError('SYSTEM_ERROR', 500);
+  }
+  if (!allowed) {
     return buildError('RATE_LIMITED', 429);
   }
 
   const body = (await request.json()) as {
     courierCode?: string;
     trackingNumber?: string;
-    destination?: { postalCode?: string; baseAddress?: string; detailAddress?: string };
+    destination?: { postalCode?: string; baseAddress?: string };
   };
 
-  const courier = MOCK_COURIERS.find((item) => item.code === body.courierCode);
-  if (!courier) {
+  const courierCode = body.courierCode?.trim();
+  if (!courierCode) {
     return buildError('SYSTEM_ERROR', 400);
   }
 
@@ -63,26 +53,30 @@ export async function POST(request: NextRequest) {
     return buildError('DESTINATION_REQUIRED', 400);
   }
 
-  const queryId = `q_${randomUUID().slice(0, 12)}`;
-  let response: TrackResponse;
   try {
-    response = buildMockTrackResponse({
-      queryId,
-      courierCode: courier.code,
-      courierName: courier.name,
+    const tracked = await trackParcel({
+      courierCode,
       trackingNumber: sanitized,
-      destinationBaseAddress: baseAddress,
-      destinationPostalCode: postalCode
+      postalCode,
+      baseAddress
     });
-  } catch {
-    return buildError('NOT_FOUND', 404);
-  }
+    if (tracked.error) {
+      const status =
+        tracked.error.code === 'NOT_FOUND'
+          ? 404
+          : tracked.error.code === 'SYSTEM_ERROR'
+            ? 500
+            : 400;
+      return buildError(tracked.error.code, status);
+    }
 
-  try {
-    await setResult(queryId, response);
+    if (!tracked.data) {
+      return buildError('SYSTEM_ERROR', 500);
+    }
+
+    await setResult(tracked.data.queryId, tracked.data);
+    return NextResponse.json(tracked.data);
   } catch {
     return buildError('SYSTEM_ERROR', 500);
   }
-
-  return NextResponse.json(response);
 }
