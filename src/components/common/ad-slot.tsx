@@ -11,8 +11,9 @@ export const AdSlot = ({ slot }: Props) => {
   return (
     <Card
       as="aside"
+      preset="ad-dashed"
       borderStyle="dashed"
-      className="mt-6 text-center text-xs text-slate-500"
+      className="text-center text-caption text-neutral-500"
       aria-label={`광고 슬롯 ${slot}`}
     >
       광고 슬롯 {slot}

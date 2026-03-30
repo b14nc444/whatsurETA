@@ -2,7 +2,7 @@ import type { InputHTMLAttributes, ReactNode, SelectHTMLAttributes } from 'react
 import { cn } from '@/lib/cn';
 
 export const inputControlClassName =
-  'w-full rounded-xl border border-neutral-300 bg-neutral-0 px-3 py-2 text-sm text-neutral-900 outline-none transition-colors duration-base ease-standard placeholder:text-neutral-500 focus:border-brand-blue-600 focus:ring-2 focus:ring-brand-blue-100 disabled:cursor-not-allowed disabled:bg-neutral-100';
+  'h-11 w-full rounded-xl border border-neutral-300 bg-neutral-0 px-4 text-body-sm text-neutral-900 outline-none transition-colors duration-base ease-standard placeholder:text-neutral-500 focus:border-brand-blue-600 focus:ring-2 focus:ring-brand-blue-100 disabled:cursor-not-allowed disabled:bg-neutral-100';
 
 type InputFieldProps = {
   id?: string;
@@ -26,8 +26,8 @@ export const InputField = ({
   const messageId = id ? `${id}-message` : undefined;
 
   return (
-    <div className={cn('space-y-1', className)}>
-      <label className="block text-sm font-medium text-neutral-700" htmlFor={id}>
+    <div className={cn('space-y-2', className)}>
+      <label className="block text-body-sm font-semibold text-neutral-900" htmlFor={id}>
         {label}
         {required ? <span className="sr-only">필수 입력</span> : null}
       </label>
@@ -73,4 +73,24 @@ export const SelectInput = ({ className, hasError = false, ...props }: SelectInp
     )}
     {...props}
   />
+);
+
+type FieldInlineActionProps = {
+  leading?: ReactNode;
+  trailing?: ReactNode;
+  className?: string;
+  children: ReactNode;
+};
+
+export const FieldInlineAction = ({ leading, trailing, className, children }: FieldInlineActionProps) => (
+  <div
+    className={cn(
+      'flex h-11 items-center gap-2 rounded-xl border border-brand-blue-100 bg-brand-blue-50 px-4 text-body-sm text-neutral-900',
+      className
+    )}
+  >
+    {leading ? <span className="text-brand-blue-600">{leading}</span> : null}
+    <div className="min-w-0 flex-1 truncate">{children}</div>
+    {trailing ? <div>{trailing}</div> : null}
+  </div>
 );

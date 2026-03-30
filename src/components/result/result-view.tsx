@@ -1,19 +1,15 @@
 'use client';
 
 import { useMemo } from 'react';
-import { useRouter } from 'next/navigation';
 import { useResult } from '@/hooks/use-result';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { ETA_HIDDEN_STATUSES, ERROR_MESSAGES } from '@/lib/constants';
 import { trackEvent } from '@/lib/events';
 import { LoadingState } from '@/components/common/loading-state';
 import { ErrorState } from '@/components/error/error-state';
-import { SummaryCard } from '@/components/result/summary-card';
 import { ProgressTable } from '@/components/result/progress-table';
 import { EtaCard } from '@/components/result/eta-card';
-import { ReasonCard } from '@/components/result/reason-card';
-import { RefreshGuide } from '@/components/result/refresh-guide';
+import { SearchForm } from '@/components/input/search-form';
+import { FAQSection } from '@/components/common/faq-section';
 import { AdSlot } from '@/components/common/ad-slot';
 
 type Props = {
@@ -21,7 +17,6 @@ type Props = {
 };
 
 export const ResultView = ({ queryId }: Props) => {
-  const router = useRouter();
   const { data, loading, error } = useResult(queryId);
 
   const etaHidden = useMemo(() => {
@@ -52,25 +47,16 @@ export const ResultView = ({ queryId }: Props) => {
   }
 
   return (
-    <div className="space-y-4">
-      <Card as="div" className="flex items-center justify-between">
-        <Button variant="secondary" onClick={() => router.back()}>
-          뒤로가기
-        </Button>
-        <Button variant="primary" onClick={() => window.location.reload()}>
-          새로고침
-        </Button>
-      </Card>
-      <SummaryCard tracking={data.tracking} />
-      <AdSlot slot="B" />
-      <ProgressTable progresses={data.tracking.progresses} />
+    <div className="space-y-6">
+      <SearchForm />
       <EtaCard
         earliestEta={data.prediction.earliestEta}
         latestEta={data.prediction.latestEta}
         hidden={etaHidden}
+        reason={data.prediction.reason}
       />
-      <ReasonCard reason={data.prediction.reason} />
-      <RefreshGuide recommendedRefreshAfterMin={data.meta.recommendedRefreshAfterMin} />
+      <ProgressTable progresses={data.tracking.progresses} />
+      <FAQSection />
       <AdSlot slot="C" />
     </div>
   );

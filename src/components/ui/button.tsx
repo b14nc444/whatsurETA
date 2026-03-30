@@ -2,12 +2,16 @@ import type { ButtonHTMLAttributes, ReactElement, ReactNode } from 'react';
 import { cloneElement, isValidElement } from 'react';
 import { cn } from '@/lib/cn';
 
-type ButtonVariant = 'primary' | 'secondary' | 'ghost';
+type ButtonVariant = 'primary-gradient' | 'primary' | 'secondary-outline' | 'secondary' | 'ghost';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 const variantClass: Record<ButtonVariant, string> = {
+  'primary-gradient':
+    'border border-transparent bg-[image:var(--gradient-brand)] text-neutral-0 shadow-token-sm hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50',
   primary:
     'border border-transparent bg-[image:var(--gradient-brand)] text-neutral-0 shadow-token-sm hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50',
+  'secondary-outline':
+    'border border-neutral-300 bg-neutral-0 text-neutral-700 hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-50',
   secondary:
     'border border-neutral-300 bg-neutral-0 text-neutral-700 hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-50',
   ghost:
@@ -15,9 +19,9 @@ const variantClass: Record<ButtonVariant, string> = {
 };
 
 const sizeClass: Record<ButtonSize, string> = {
-  sm: 'rounded-md px-3 py-1.5 text-xs font-semibold',
-  md: 'rounded-lg px-4 py-2 text-sm font-semibold',
-  lg: 'rounded-xl px-5 py-2.5 text-base font-semibold'
+  sm: 'h-8 rounded-md px-3 text-caption font-semibold',
+  md: 'h-11 rounded-lg px-4 text-body-sm font-semibold',
+  lg: 'h-14 rounded-xl px-6 text-body-md font-semibold'
 };
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -32,7 +36,7 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 export const Button = ({
-  variant = 'secondary',
+  variant = 'secondary-outline',
   size = 'md',
   loading = false,
   loadingText = '처리 중...',

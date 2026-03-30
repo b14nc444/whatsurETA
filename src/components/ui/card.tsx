@@ -4,12 +4,14 @@ import { cn } from '@/lib/cn';
 type CardTone = 'default' | 'muted' | 'danger' | 'warning';
 type CardBorderStyle = 'default' | 'dashed' | 'none';
 type CardPadding = 'sm' | 'md' | 'lg';
+type CardPreset = 'default' | 'form' | 'content' | 'status' | 'ad-dashed';
 
 type Props<T extends ElementType> = {
   as?: T;
   tone?: CardTone;
   borderStyle?: CardBorderStyle;
   padding?: CardPadding;
+  preset?: CardPreset;
   header?: ReactNode;
   footer?: ReactNode;
   className?: string;
@@ -35,11 +37,20 @@ const paddingClass: Record<CardPadding, string> = {
   lg: 'p-6'
 };
 
+const presetClass: Record<CardPreset, string> = {
+  default: '',
+  form: 'rounded-2xl p-6 md:p-7',
+  content: 'rounded-2xl p-6',
+  status: 'rounded-xl p-4',
+  'ad-dashed': 'rounded-2xl border-dashed p-10 text-center text-caption text-neutral-500'
+};
+
 export const Card = <T extends ElementType = 'section'>({
   as,
   tone = 'default',
   borderStyle = 'default',
   padding = 'md',
+  preset = 'default',
   header,
   footer,
   className,
@@ -55,6 +66,7 @@ export const Card = <T extends ElementType = 'section'>({
         toneClass[tone],
         borderClass[borderStyle],
         paddingClass[padding],
+        presetClass[preset],
         className
       )}
     >

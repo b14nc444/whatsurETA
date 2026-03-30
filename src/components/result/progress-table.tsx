@@ -1,9 +1,9 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import type { Progress } from '@/types/tracking';
 import { formatDateTimeKo } from '@/lib/formatter';
-import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 
 type Props = {
@@ -11,49 +11,45 @@ type Props = {
 };
 
 export const ProgressTable = ({ progresses }: Props) => {
-  const [expanded, setExpanded] = useState(false);
-
   const sorted = useMemo(
-    () => [...progresses].sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime()),
+    () => [...progresses].sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime()),
     [progresses]
   );
 
-  const items = expanded ? sorted : sorted.slice(0, 8);
+  const latestIndex = sorted.length - 1;
 
   if (!sorted.length) {
-    return <Card className="text-sm text-slate-600">진행 이력이 아직 없어요.</Card>;
+    return <Card preset="content" className="text-body-sm text-neutral-700">진행 이력이 아직 없어요.</Card>;
   }
 
   return (
-    <Card className="space-y-3">
-      <h2 className="text-base font-semibold">배달 현황</h2>
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[600px] text-left text-sm">
-          <thead className="text-slate-500">
-            <tr>
-              <th className="py-2">시간</th>
-              <th className="py-2">위치</th>
-              <th className="py-2">상태</th>
-              <th className="py-2">상세설명</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((row) => (
-              <tr key={`${row.dateTime}-${row.status}`} className="border-t border-slate-200">
-                <td className="py-2">{formatDateTimeKo(row.dateTime)}</td>
-                <td className="py-2">{row.location ?? '-'}</td>
-                <td className="py-2">{row.status}</td>
-                <td className="py-2">{row.description ?? '-'}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <Card preset="content" className="space-y-6">
+      <h2 className="text-heading-h3">배송 현황</h2>
+      <div className="space-y-6">
+        {sorted.map((row, index) => {
+          const isCurrent = index === latestIndex;
+          return (
+            <div key={`${row.dateTime}-${row.status}`} className="relative flex gap-4">
+              <div className="relative flex w-8 justify-center">
+                <span
+                  className={isCurrent
+                    ? 'z-10 mt-1.5 h-5 w-5 rounded-full border border-brand-purple-100 bg-brand-purple-500 shadow-[0_0_0_6px_rgb(106_47_224_/_0.14)]'
+                    : 'z-10 mt-1.5 h-5 w-5 rounded-full border border-neutral-300 bg-neutral-0'}
+                />
+                {index < latestIndex ? <span className="absolute top-6 h-[calc(100%+8px)] w-px bg-brand-blue-100" /> : null}
+              </div>
+              <div className="pb-2">
+                <Badge tone={isCurrent ? 'info' : 'default'} size="sm" emphasis="soft">
+                  {row.status}
+                </Badge>
+                <p className="mt-2 text-body-md font-semibold text-neutral-700">{row.location ?? '-'}</p>
+                <p className="text-caption text-neutral-500">{formatDateTimeKo(row.dateTime)}</p>
+                {row.description ? <p className="mt-1 text-caption text-neutral-500">{row.description}</p> : null}
+              </div>
+            </div>
+          );
+        })}
       </div>
-      {sorted.length > 8 ? (
-        <Button variant="secondary" onClick={() => setExpanded((prev) => !prev)}>
-          {expanded ? '접기' : '더보기'}
-        </Button>
-      ) : null}
     </Card>
   );
 };

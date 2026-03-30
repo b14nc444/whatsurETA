@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { PageHeader } from '@/components/common/page-header';
+import { FloatingHelpButton } from '@/components/common/floating-help-button';
 import { ResultView } from '@/components/result/result-view';
 
 type Props = {
@@ -16,8 +18,14 @@ export default async function ResultPage({ params }: Props) {
   const { queryId } = await params;
 
   return (
-    <main className="container-page">
-      <ResultView queryId={queryId} />
-    </main>
+    <div className="app-shell">
+      <section className="hero-band">
+        <PageHeader />
+      </section>
+      <main className="content-column">
+        <ResultView queryId={queryId} />
+      </main>
+      <FloatingHelpButton />
+    </div>
   );
 }

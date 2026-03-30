@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { InputField, TextInput } from '@/components/ui/input-field';
+import { FieldInlineAction, InputField } from '@/components/ui/input-field';
 
 const DAUM_POSTCODE_SCRIPT_URL =
   'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
@@ -91,16 +91,63 @@ export const DestinationPicker = ({ value, onChange, error }: Props) => {
   };
 
   const message = error || sdkError;
+  const hasSelectedDestination = Boolean(value.baseAddress);
 
   return (
     <InputField label="도착지" required error={message}>
-      <div className="space-y-2">
-        <Button variant="secondary" onClick={openAddressSearch} disabled={isOpening || !sdkReady}>
+      {hasSelectedDestination ? (
+        <FieldInlineAction
+          leading={
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 21s7-6.13 7-11a7 7 0 1 0-14 0c0 4.87 7 11 7 11Z"
+                stroke="currentColor"
+                strokeWidth="1.7"
+              />
+              <circle cx="12" cy="10" r="2.2" stroke="currentColor" strokeWidth="1.7" />
+            </svg>
+          }
+          trailing={
+            <button
+              type="button"
+              className="text-body-sm font-semibold text-brand-blue-600"
+              onClick={openAddressSearch}
+              disabled={isOpening || !sdkReady}
+            >
+              변경하기
+            </button>
+          }
+          className={message ? 'border-state-error-600 bg-state-error-50' : undefined}
+        >
+          {value.baseAddress}
+        </FieldInlineAction>
+      ) : (
+        <Button
+          variant="secondary-outline"
+          size="md"
+          fullWidth
+          className="justify-between text-neutral-500"
+          onClick={openAddressSearch}
+          disabled={isOpening || !sdkReady}
+          leftIcon={
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 21s7-6.13 7-11a7 7 0 1 0-14 0c0 4.87 7 11 7 11Z"
+                stroke="currentColor"
+                strokeWidth="1.7"
+              />
+              <circle cx="12" cy="10" r="2.2" stroke="currentColor" strokeWidth="1.7" />
+            </svg>
+          }
+          rightIcon={
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="m9 5 6 7-6 7" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+            </svg>
+          }
+        >
           {isOpening ? '주소 검색 준비 중...' : '도착지 검색'}
         </Button>
-        <TextInput value={value.postalCode} placeholder="우편번호" readOnly hasError={Boolean(message)} />
-        <TextInput value={value.baseAddress} placeholder="기본주소" readOnly hasError={Boolean(message)} />
-      </div>
+      )}
     </InputField>
   );
 };

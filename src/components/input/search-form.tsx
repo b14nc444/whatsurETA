@@ -80,7 +80,7 @@ export const SearchForm = () => {
   };
 
   return (
-    <Card as="form" className="space-y-4" onSubmit={onSubmit}>
+    <Card as="form" preset="form" className="space-y-5" onSubmit={onSubmit}>
       <CourierSelect
         couriers={couriers}
         value={courierCode}
@@ -104,9 +104,10 @@ export const SearchForm = () => {
       ) : null}
 
       <Button
-        variant="primary"
+        variant="primary-gradient"
         type="submit"
         fullWidth
+        size="lg"
         loading={submitting}
         loadingText="조회 중..."
         disabled={!canSubmit || couriersLoading}
