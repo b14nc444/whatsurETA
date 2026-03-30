@@ -20,8 +20,8 @@ const variantClass: Record<ButtonVariant, string> = {
 
 const sizeClass: Record<ButtonSize, string> = {
   sm: 'h-8 rounded-md px-3 text-caption font-semibold',
-  md: 'h-11 rounded-lg px-4 text-body-sm font-semibold',
-  lg: 'h-14 rounded-xl px-6 text-body-md font-semibold'
+  md: 'h-11 rounded-md px-4 text-body-sm font-semibold',
+  lg: 'h-14 rounded-lg px-6 text-body-md font-semibold'
 };
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {

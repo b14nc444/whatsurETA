@@ -51,10 +51,10 @@
     var(--color-brand-purple-600)
   );
 
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
   --radius-full: 9999px;
 
   --space-1: 4px;
@@ -78,6 +78,15 @@
 
 body {
   @apply bg-neutral-50 text-neutral-900 antialiased;
+  font-family: Inter, 'Segoe UI', Roboto, 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--color-neutral-900);
+  -webkit-box-shadow: 0 0 0 1000px var(--color-neutral-0) inset;
+  box-shadow: 0 0 0 1000px var(--color-neutral-0) inset;
 }
 
 .container-page {

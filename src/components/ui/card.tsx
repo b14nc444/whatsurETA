@@ -39,10 +39,10 @@ const paddingClass: Record<CardPadding, string> = {
 
 const presetClass: Record<CardPreset, string> = {
   default: '',
-  form: 'rounded-2xl p-6 md:p-7',
-  content: 'rounded-2xl p-6',
+  form: 'rounded-xl p-6 md:p-7',
+  content: 'rounded-xl p-6',
   status: 'rounded-xl p-4',
-  'ad-dashed': 'rounded-2xl border-dashed p-10 text-center text-caption text-neutral-500'
+  'ad-dashed': 'rounded-xl border-dashed p-10 text-center text-caption text-neutral-500'
 };
 
 export const Card = <T extends ElementType = 'section'>({

@@ -1,7 +1,6 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
 import { FieldInlineAction, InputField } from '@/components/ui/input-field';
 
 const DAUM_POSTCODE_SCRIPT_URL =
@@ -122,14 +121,13 @@ export const DestinationPicker = ({ value, onChange, error }: Props) => {
           {value.baseAddress}
         </FieldInlineAction>
       ) : (
-        <Button
-          variant="secondary-outline"
-          size="md"
-          fullWidth
-          className="justify-between text-neutral-500"
+        <button
+          type="button"
+          className="flex h-11 w-full items-center rounded-lg border border-neutral-300 bg-neutral-0 px-4 text-body-sm text-neutral-500 transition-colors duration-base ease-standard hover:bg-neutral-50"
           onClick={openAddressSearch}
           disabled={isOpening || !sdkReady}
-          leftIcon={
+        >
+          <span className="mr-2 text-brand-blue-600" aria-hidden>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <path
                 d="M12 21s7-6.13 7-11a7 7 0 1 0-14 0c0 4.87 7 11 7 11Z"
@@ -138,15 +136,14 @@ export const DestinationPicker = ({ value, onChange, error }: Props) => {
               />
               <circle cx="12" cy="10" r="2.2" stroke="currentColor" strokeWidth="1.7" />
             </svg>
-          }
-          rightIcon={
+          </span>
+          <span className="text-left">{isOpening ? '주소 검색 준비 중...' : '도착지 검색'}</span>
+          <span className="ml-auto text-neutral-500" aria-hidden>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <path d="m9 5 6 7-6 7" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
             </svg>
-          }
-        >
-          {isOpening ? '주소 검색 준비 중...' : '도착지 검색'}
-        </Button>
+          </span>
+        </button>
       )}
     </InputField>
   );
