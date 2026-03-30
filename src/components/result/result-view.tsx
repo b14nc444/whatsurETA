@@ -3,6 +3,8 @@
 import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useResult } from '@/hooks/use-result';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { ETA_HIDDEN_STATUSES, ERROR_MESSAGES } from '@/lib/constants';
 import { trackEvent } from '@/lib/events';
 import { LoadingState } from '@/components/common/loading-state';
@@ -51,14 +53,14 @@ export const ResultView = ({ queryId }: Props) => {
 
   return (
     <div className="space-y-4">
-      <div className="card flex items-center justify-between">
-        <button type="button" className="btn-secondary" onClick={() => router.back()}>
+      <Card as="div" className="flex items-center justify-between">
+        <Button variant="secondary" onClick={() => router.back()}>
           뒤로가기
-        </button>
-        <button type="button" className="btn-primary" onClick={() => window.location.reload()}>
+        </Button>
+        <Button variant="primary" onClick={() => window.location.reload()}>
           새로고침
-        </button>
-      </div>
+        </Button>
+      </Card>
       <SummaryCard tracking={data.tracking} />
       <AdSlot slot="B" />
       <ProgressTable progresses={data.tracking.progresses} />

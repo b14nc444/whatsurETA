@@ -1,6 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { InputField, TextInput } from '@/components/ui/input-field';
 
 const DAUM_POSTCODE_SCRIPT_URL =
   'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
@@ -91,29 +93,14 @@ export const DestinationPicker = ({ value, onChange, error }: Props) => {
   const message = error || sdkError;
 
   return (
-    <div className="space-y-2">
-      <label className="label">도착지</label>
-      <button
-        type="button"
-        className="btn-secondary"
-        onClick={openAddressSearch}
-        disabled={isOpening}
-      >
-        {isOpening ? '주소 검색 준비 중...' : '도착지 검색'}
-      </button>
-      <input
-        className="input"
-        value={value.postalCode}
-        placeholder="우편번호"
-        readOnly
-      />
-      <input
-        className="input"
-        value={value.baseAddress}
-        placeholder="기본주소"
-        readOnly
-      />
-      {message ? <p className="text-xs text-red-700">{message}</p> : null}
-    </div>
+    <InputField label="도착지" required error={message}>
+      <div className="space-y-2">
+        <Button variant="secondary" onClick={openAddressSearch} disabled={isOpening || !sdkReady}>
+          {isOpening ? '주소 검색 준비 중...' : '도착지 검색'}
+        </Button>
+        <TextInput value={value.postalCode} placeholder="우편번호" readOnly />
+        <TextInput value={value.baseAddress} placeholder="기본주소" readOnly />
+      </div>
+    </InputField>
   );
 };

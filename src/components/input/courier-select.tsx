@@ -1,4 +1,5 @@
 import type { Courier } from '@/types/courier';
+import { InputField, SelectInput } from '@/components/ui/input-field';
 
 type Props = {
   couriers: Courier[];
@@ -8,13 +9,9 @@ type Props = {
 };
 
 export const CourierSelect = ({ couriers, value, onChange, disabled }: Props) => (
-  <div>
-    <label className="label" htmlFor="courierCode">
-      택배사
-    </label>
-    <select
+  <InputField id="courierCode" label="택배사" required>
+    <SelectInput
       id="courierCode"
-      className="input"
       value={value}
       onChange={(e) => onChange(e.target.value)}
       disabled={disabled}
@@ -26,6 +23,6 @@ export const CourierSelect = ({ couriers, value, onChange, disabled }: Props) =>
           {courier.name}
         </option>
       ))}
-    </select>
-  </div>
+    </SelectInput>
+  </InputField>
 );

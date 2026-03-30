@@ -1,3 +1,5 @@
+import { InputField, TextInput } from '@/components/ui/input-field';
+
 type Props = {
   value: string;
   onChange: (value: string) => void;
@@ -5,25 +7,16 @@ type Props = {
 };
 
 export const TrackingInput = ({ value, onChange, error }: Props) => (
-  <div>
-    <label className="label" htmlFor="trackingNumber">
-      송장번호
-    </label>
-    <input
+  <InputField id="trackingNumber" label="송장번호" required error={error}>
+    <TextInput
       id="trackingNumber"
-      className="input"
       type="text"
       placeholder="송장번호를 입력하세요"
       value={value}
       onChange={(e) => onChange(e.target.value)}
       aria-invalid={Boolean(error)}
-      aria-describedby={error ? 'tracking-error' : undefined}
+      aria-describedby={error ? 'trackingNumber-message' : undefined}
       required
     />
-    {error ? (
-      <p id="tracking-error" className="mt-1 text-xs text-red-700">
-        {error}
-      </p>
-    ) : null}
-  </div>
+  </InputField>
 );

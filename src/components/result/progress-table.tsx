@@ -3,6 +3,8 @@
 import { useMemo, useState } from 'react';
 import type { Progress } from '@/types/tracking';
 import { formatDateTimeKo } from '@/lib/formatter';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 
 type Props = {
   progresses: Progress[];
@@ -19,11 +21,11 @@ export const ProgressTable = ({ progresses }: Props) => {
   const items = expanded ? sorted : sorted.slice(0, 8);
 
   if (!sorted.length) {
-    return <section className="card text-sm text-slate-600">진행 이력이 아직 없어요.</section>;
+    return <Card className="text-sm text-slate-600">진행 이력이 아직 없어요.</Card>;
   }
 
   return (
-    <section className="card space-y-3">
+    <Card className="space-y-3">
       <h2 className="text-base font-semibold">배달 현황</h2>
       <div className="overflow-x-auto">
         <table className="w-full min-w-[600px] text-left text-sm">
@@ -48,10 +50,10 @@ export const ProgressTable = ({ progresses }: Props) => {
         </table>
       </div>
       {sorted.length > 8 ? (
-        <button type="button" className="btn-secondary" onClick={() => setExpanded((prev) => !prev)}>
+        <Button variant="secondary" onClick={() => setExpanded((prev) => !prev)}>
           {expanded ? '접기' : '더보기'}
-        </button>
+        </Button>
       ) : null}
-    </section>
+    </Card>
   );
 };

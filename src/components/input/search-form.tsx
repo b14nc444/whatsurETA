@@ -2,6 +2,8 @@
 
 import { FormEvent, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { CourierSelect } from '@/components/input/courier-select';
 import { TrackingInput } from '@/components/input/tracking-input';
 import { DestinationPicker } from '@/components/input/destination-picker';
@@ -78,7 +80,7 @@ export const SearchForm = () => {
   };
 
   return (
-    <form className="card space-y-4" onSubmit={onSubmit}>
+    <Card as="form" className="space-y-4" onSubmit={onSubmit}>
       <CourierSelect
         couriers={couriers}
         value={courierCode}
@@ -101,9 +103,16 @@ export const SearchForm = () => {
         </p>
       ) : null}
 
-      <button className="btn-primary w-full" type="submit" disabled={!canSubmit || submitting || couriersLoading}>
-        {submitting ? '조회 중...' : '조회하기'}
-      </button>
-    </form>
+      <Button
+        variant="primary"
+        type="submit"
+        fullWidth
+        loading={submitting}
+        loadingText="조회 중..."
+        disabled={!canSubmit || couriersLoading}
+      >
+        조회하기
+      </Button>
+    </Card>
   );
 };
