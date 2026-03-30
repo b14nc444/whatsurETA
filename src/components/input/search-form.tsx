@@ -1,8 +1,9 @@
 'use client';
 
-import { FormEvent, useMemo, useState } from 'react';
+import { FormEvent, useCallback, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Toast } from '@/components/common/toast';
 import { CourierSelect } from '@/components/input/courier-select';
 import { TrackingInput } from '@/components/input/tracking-input';
 import { DestinationPicker } from '@/components/input/destination-picker';
@@ -31,10 +32,21 @@ export const SearchForm = ({ onSuccess }: Props) => {
   });
   const [trackingError, setTrackingError] = useState<string>('');
   const [destinationError, setDestinationError] = useState<string>('');
+  const [toast, setToast] = useState<{
+    open: boolean;
+    type: 'success' | 'error';
+    message: string;
+  }>({
+    open: false,
+    type: 'success',
+    message: ''
+  });
 
-  const canSubmit = useMemo(() => {
-    return Boolean(courierCode && trackingNumber && destination.postalCode && destination.baseAddress);
-  }, [courierCode, trackingNumber, destination]);
+  const canSubmit = Boolean(courierCode && trackingNumber && destination.postalCode && destination.baseAddress);
+
+  const closeToast = useCallback(() => {
+    setToast((prev) => ({ ...prev, open: false }));
+  }, []);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -55,7 +67,7 @@ export const SearchForm = ({ onSuccess }: Props) => {
     setLastCourierCode(courierCode);
     trackEvent('search_submit', { courierCode });
 
-    const response = await submit({
+    const result = await submit({
       courierCode,
       trackingNumber: sanitized,
       destination: {
@@ -64,59 +76,73 @@ export const SearchForm = ({ onSuccess }: Props) => {
       }
     });
 
-    if (!response) {
+    if (!result.response) {
       trackEvent('search_error', {
         courierCode,
-        errorCode: submitError?.error.code ?? 'SYSTEM_ERROR'
+        errorCode: result.error?.error.code ?? 'SYSTEM_ERROR'
+      });
+      setToast({
+        open: true,
+        type: 'error',
+        message: '조회에 실패했어요. 잠시 후 다시 시도해주세요.'
       });
       return;
     }
 
     trackEvent('search_success', {
       courierCode,
-      status: response.tracking.deliveryStatus,
-      dataSource: response.dataSource,
-      isStale: response.isStale
+      status: result.response.tracking.deliveryStatus,
+      dataSource: result.response.dataSource,
+      isStale: result.response.isStale
     });
 
-    onSuccess?.(response);
+    setToast({
+      open: true,
+      type: 'success',
+      message: '조회가 완료되었어요.'
+    });
+
+    onSuccess?.(result.response);
   };
 
   return (
-    <Card as="form" preset="form" className="space-y-5" onSubmit={onSubmit}>
-      <CourierSelect
-        couriers={couriers}
-        value={courierCode}
-        onChange={setCourierCode}
-        disabled={couriersLoading || submitting}
-      />
-      <TrackingInput value={trackingNumber} onChange={setTrackingNumber} error={trackingError} />
-      <DestinationPicker value={destination} onChange={setDestination} error={destinationError} />
+    <>
+      <Toast open={toast.open} type={toast.type} message={toast.message} onClose={closeToast} />
+      <Card as="form" preset="form" className="space-y-5" onSubmit={onSubmit}>
+        <CourierSelect
+          couriers={couriers}
+          value={courierCode}
+          onChange={setCourierCode}
+          disabled={couriersLoading || submitting}
+        />
+        <TrackingInput value={trackingNumber} onChange={setTrackingNumber} error={trackingError} />
+        <DestinationPicker value={destination} onChange={setDestination} error={destinationError} />
 
-      {couriersError ? (
-        <div className="flex items-center justify-between rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700">
-          <span>{couriersError}</span>
-          <RetryButton onClick={refetch} />
-        </div>
-      ) : null}
+        {couriersError ? (
+          <div className="flex items-center justify-between rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700">
+            <span>{couriersError}</span>
+            <RetryButton onClick={refetch} />
+          </div>
+        ) : null}
 
-      {submitError ? (
-        <p className="text-xs text-red-700">
-          {submitError.error?.message ?? ERROR_MESSAGES.SYSTEM_ERROR}
-        </p>
-      ) : null}
+        {submitError ? (
+          <p className="text-xs text-red-700">
+            {submitError.error?.message ?? ERROR_MESSAGES.SYSTEM_ERROR}
+          </p>
+        ) : null}
 
-      <Button
-        variant="primary-gradient"
-        type="submit"
-        fullWidth
-        size="lg"
-        loading={submitting}
-        loadingText="조회 중..."
-        disabled={!canSubmit || couriersLoading}
-      >
-        조회하기
-      </Button>
-    </Card>
+        <Button
+          variant="primary-gradient"
+          type="submit"
+          fullWidth
+          size="lg"
+          loading={submitting}
+          loadingText="조회 중..."
+          disabled={!canSubmit || couriersLoading}
+        >
+          조회하기
+        </Button>
+      </Card>
+    </>
   );
 };
