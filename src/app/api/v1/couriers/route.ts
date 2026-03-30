@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { fetchCouriersFromProvider } from '@/lib/delivery-service';
+import { sanitizeAndFilterKoreanCouriers } from '@/lib/courier-filter';
 import { getRedisClient } from '@/lib/redis';
 
 export const runtime = 'nodejs';
@@ -25,7 +26,10 @@ export async function GET() {
     const cached = await redis.get(CACHE_KEY);
     if (cached) {
       const parsed = JSON.parse(cached) as { couriers: unknown; updatedAt: string };
-      return NextResponse.json(parsed);
+      return NextResponse.json({
+        couriers: sanitizeAndFilterKoreanCouriers(parsed.couriers),
+        updatedAt: parsed.updatedAt
+      });
     }
 
     const couriers = await fetchCouriersFromProvider();
@@ -40,7 +44,7 @@ export async function GET() {
     return NextResponse.json(payload);
   } catch {
     return NextResponse.json({
-      couriers: FALLBACK_COURIERS,
+      couriers: sanitizeAndFilterKoreanCouriers(FALLBACK_COURIERS),
       updatedAt: new Date().toISOString()
     });
   }

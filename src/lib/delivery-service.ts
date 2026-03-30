@@ -1,6 +1,7 @@
 import { randomUUID, createHash } from 'crypto';
 import { ERROR_MESSAGES, ETA_HIDDEN_STATUSES, REFRESH_MINUTES_BY_STATUS } from '@/lib/constants';
 import { getDeliveryApiCouriers, traceDeliveryApiTracking } from '@/lib/deliveryapi-client';
+import { sanitizeAndFilterKoreanCouriers } from '@/lib/courier-filter';
 import { generateEtaPrediction } from '@/lib/eta-service';
 import {
   latestProgressHash,
@@ -58,11 +59,13 @@ const normalizeStatus = (status?: string | null): DeliveryStatus => {
 };
 
 const toCouriers = (items: DeliveryApiCourier[]): Courier[] =>
-  items.map((item) => ({
-    code: item.trackingApiCode,
-    name: item.displayName,
-    enabled: true
-  }));
+  sanitizeAndFilterKoreanCouriers(
+    items.map((item) => ({
+      code: item.trackingApiCode,
+      name: item.displayName,
+      enabled: true
+    }))
+  );
 
 const mapTraceErrorCode = (code?: string): ApiErrorCode => {
   const upper = (code ?? '').toUpperCase();
