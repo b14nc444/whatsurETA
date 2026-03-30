@@ -28,8 +28,17 @@ export const ProgressTable = ({ progresses }: Props) => {
       <div className="space-y-6">
         {sorted.map((row, index) => {
           const isCurrent = index === latestIndex;
+          const rowKey = [
+            row.dateTime,
+            row.statusCode,
+            row.status,
+            row.location ?? 'unknown',
+            row.description ?? 'none',
+            index
+          ].join('|');
+
           return (
-            <div key={`${row.dateTime}-${row.status}`} className="relative flex gap-4">
+            <div key={rowKey} className="relative flex gap-4">
               <div className="relative flex w-8 justify-center">
                 <span
                   className={isCurrent
