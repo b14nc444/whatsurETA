@@ -1,7 +1,6 @@
 'use client';
 
 import { FormEvent, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { CourierSelect } from '@/components/input/courier-select';
@@ -14,9 +13,13 @@ import { trackEvent } from '@/lib/events';
 import { ERROR_MESSAGES } from '@/lib/constants';
 import { getLastCourierCode, setLastCourierCode } from '@/lib/storage';
 import { isDestinationValid, isTrackingNumberValid, sanitizeTrackingNumber } from '@/lib/validators';
+import type { TrackResponse } from '@/types/api';
 
-export const SearchForm = () => {
-  const router = useRouter();
+type Props = {
+  onSuccess?: (response: TrackResponse) => void;
+};
+
+export const SearchForm = ({ onSuccess }: Props) => {
   const { couriers, loading: couriersLoading, error: couriersError, refetch } = useCouriers();
   const { submit, loading: submitting, error: submitError } = useTrack();
 
@@ -76,7 +79,7 @@ export const SearchForm = () => {
       isStale: response.isStale
     });
 
-    router.push(`/result/${response.queryId}`);
+    onSuccess?.(response);
   };
 
   return (
