@@ -13,7 +13,7 @@ export const EtaCard = ({ earliestEta, latestEta, hidden, reason }: Props) => {
     return (
       <Card preset="content" className="space-y-4">
         <h2 className="text-heading-h3">예상 도착 시간</h2>
-        <p className="rounded-2xl border border-[#e9d86a] bg-[#f7f5e6] px-6 py-8 text-body-lg text-neutral-700">
+        <p className="rounded-2xl border border-[#FFF085] bg-[#FEFCE8] px-6 py-8 text-body-lg text-neutral-700">
           현재 배송 단계에서는 정확한 도착 시간 예측이 어려워요. 배송 현황을 참고해주세요.
         </p>
       </Card>
