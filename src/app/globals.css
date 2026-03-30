@@ -4,12 +4,126 @@
 
 :root {
   color-scheme: light;
+  --color-brand-blue-50: #f2f6ff;
+  --color-brand-blue-100: #e6eeff;
+  --color-brand-blue-500: #3b82ff;
+  --color-brand-blue-600: #2f5fff;
+  --color-brand-blue-700: #264dcc;
+
+  --color-brand-purple-50: #f7f0ff;
+  --color-brand-purple-100: #efe2ff;
+  --color-brand-purple-500: #8b5cff;
+  --color-brand-purple-600: #7a3dff;
+  --color-brand-purple-700: #6a2fe0;
+
+  --color-neutral-0: #ffffff;
+  --color-neutral-50: #f8fafc;
+  --color-neutral-100: #f1f5f9;
+  --color-neutral-200: #e2e8f0;
+  --color-neutral-300: #cbd5e1;
+  --color-neutral-500: #64748b;
+  --color-neutral-700: #334155;
+  --color-neutral-900: #0f172a;
+
+  --color-state-info-50: #eff6ff;
+  --color-state-info-100: #dbeafe;
+  --color-state-info-600: #2563eb;
+  --color-state-info-700: #1d4ed8;
+
+  --color-state-success-50: #ecfdf5;
+  --color-state-success-100: #d1fae5;
+  --color-state-success-600: #059669;
+  --color-state-success-700: #047857;
+
+  --color-state-warning-50: #fffbeb;
+  --color-state-warning-100: #fef3c7;
+  --color-state-warning-600: #d97706;
+  --color-state-warning-700: #b45309;
+
+  --color-state-error-50: #fef2f2;
+  --color-state-error-100: #fee2e2;
+  --color-state-error-600: #dc2626;
+  --color-state-error-700: #b91c1c;
+
+  --gradient-brand: linear-gradient(
+    90deg,
+    var(--color-brand-blue-600),
+    var(--color-brand-purple-600)
+  );
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+
+  --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.05), 0 2px 6px rgb(15 23 42 / 0.04);
+  --shadow-md: 0 10px 25px rgb(15 23 42 / 0.12);
+  --shadow-lg: 0 20px 45px rgb(15 23 42 / 0.18);
+
+  --motion-duration-fast: 150ms;
+  --motion-duration-base: 200ms;
+  --motion-duration-slow: 300ms;
+  --motion-ease-standard: cubic-bezier(0.2, 0, 0, 1);
 }
 
 body {
-  @apply bg-slate-50 text-slate-900 antialiased;
+  @apply bg-neutral-50 text-neutral-900 antialiased;
 }
 
 .container-page {
   @apply mx-auto max-w-4xl px-4 py-8;
+}
+
+@layer utilities {
+  .text-display-h1 {
+    font-size: 2.5rem;
+    line-height: 3rem;
+    font-weight: 700;
+  }
+
+  .text-heading-h2 {
+    font-size: 2rem;
+    line-height: 2.5rem;
+    font-weight: 700;
+  }
+
+  .text-heading-h3 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 700;
+  }
+
+  .text-body-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 400;
+  }
+
+  .text-body-md {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+  }
+
+  .text-body-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+  }
+
+  .text-caption {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 400;
+  }
 }

@@ -98,8 +98,8 @@ export const DestinationPicker = ({ value, onChange, error }: Props) => {
         <Button variant="secondary" onClick={openAddressSearch} disabled={isOpening || !sdkReady}>
           {isOpening ? '주소 검색 준비 중...' : '도착지 검색'}
         </Button>
-        <TextInput value={value.postalCode} placeholder="우편번호" readOnly />
-        <TextInput value={value.baseAddress} placeholder="기본주소" readOnly />
+        <TextInput value={value.postalCode} placeholder="우편번호" readOnly hasError={Boolean(message)} />
+        <TextInput value={value.baseAddress} placeholder="기본주소" readOnly hasError={Boolean(message)} />
       </div>
     </InputField>
   );

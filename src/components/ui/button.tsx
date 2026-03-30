@@ -7,16 +7,17 @@ type ButtonSize = 'sm' | 'md' | 'lg';
 
 const variantClass: Record<ButtonVariant, string> = {
   primary:
-    'bg-brand-600 text-white hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50',
+    'border border-transparent bg-[image:var(--gradient-brand)] text-neutral-0 shadow-token-sm hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50',
   secondary:
-    'border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50',
-  ghost: 'bg-transparent text-slate-700 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50'
+    'border border-neutral-300 bg-neutral-0 text-neutral-700 hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-50',
+  ghost:
+    'border border-transparent bg-transparent text-brand-blue-600 hover:bg-brand-blue-50 disabled:cursor-not-allowed disabled:opacity-50'
 };
 
 const sizeClass: Record<ButtonSize, string> = {
   sm: 'rounded-md px-3 py-1.5 text-xs font-semibold',
   md: 'rounded-lg px-4 py-2 text-sm font-semibold',
-  lg: 'rounded-lg px-5 py-2.5 text-base font-semibold'
+  lg: 'rounded-xl px-5 py-2.5 text-base font-semibold'
 };
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -47,7 +48,7 @@ export const Button = ({
 }: ButtonProps) => {
   const isDisabled = disabled || loading;
   const classes = cn(
-    'inline-flex items-center justify-center gap-1.5 transition outline-none focus-visible:ring-2 focus-visible:ring-brand-100 focus-visible:ring-offset-1',
+    'inline-flex items-center justify-center gap-1.5 transition-transform transition-colors duration-base ease-standard outline-none focus-visible:ring-2 focus-visible:ring-brand-blue-100 focus-visible:ring-offset-1',
     variantClass[variant],
     sizeClass[size],
     fullWidth && 'w-full',

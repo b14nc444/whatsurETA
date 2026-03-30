@@ -12,6 +12,7 @@ export const TrackingInput = ({ value, onChange, error }: Props) => (
       id="trackingNumber"
       type="text"
       placeholder="송장번호를 입력하세요"
+      hasError={Boolean(error)}
       value={value}
       onChange={(e) => onChange(e.target.value)}
       aria-invalid={Boolean(error)}

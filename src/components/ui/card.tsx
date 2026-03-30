@@ -17,10 +17,10 @@ type Props<T extends ElementType> = {
 } & Omit<ComponentPropsWithoutRef<T>, 'as' | 'className' | 'children'>;
 
 const toneClass: Record<CardTone, string> = {
-  default: 'bg-white text-slate-900 border-slate-200',
-  muted: 'bg-slate-50 text-slate-700 border-slate-200',
-  danger: 'bg-red-50 text-red-900 border-red-200',
-  warning: 'bg-amber-50 text-amber-900 border-amber-200'
+  default: 'bg-neutral-0 text-neutral-900 border-neutral-200',
+  muted: 'bg-neutral-50 text-neutral-700 border-neutral-200',
+  danger: 'bg-state-error-50 text-state-error-700 border-state-error-100',
+  warning: 'bg-state-warning-50 text-state-warning-700 border-state-warning-100'
 };
 
 const borderClass: Record<CardBorderStyle, string> = {
@@ -30,9 +30,9 @@ const borderClass: Record<CardBorderStyle, string> = {
 };
 
 const paddingClass: Record<CardPadding, string> = {
-  sm: 'p-3',
+  sm: 'p-2',
   md: 'p-4',
-  lg: 'p-5'
+  lg: 'p-6'
 };
 
 export const Card = <T extends ElementType = 'section'>({
@@ -50,7 +50,13 @@ export const Card = <T extends ElementType = 'section'>({
   return (
     <Component
       {...props}
-      className={cn('rounded-xl shadow-sm', toneClass[tone], borderClass[borderStyle], paddingClass[padding], className)}
+      className={cn(
+        'rounded-xl shadow-token-sm transition-colors duration-base ease-standard',
+        toneClass[tone],
+        borderClass[borderStyle],
+        paddingClass[padding],
+        className
+      )}
     >
       {header}
       {children}
