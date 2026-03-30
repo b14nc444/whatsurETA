@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { FieldInlineAction, InputField } from '@/components/ui/input-field';
 
 const DAUM_POSTCODE_SCRIPT_URL =
@@ -19,14 +19,12 @@ type Props = {
 };
 
 export const DestinationPicker = ({ value, onChange, error }: Props) => {
-  const [sdkReady, setSdkReady] = useState(false);
   const [isOpening, setIsOpening] = useState(false);
   const [sdkError, setSdkError] = useState<string>('');
 
   const loadPostcodeSdk = useCallback(async (): Promise<void> => {
     if (typeof window === 'undefined') return;
     if (window.daum?.Postcode) {
-      setSdkReady(true);
       return;
     }
 
@@ -54,14 +52,7 @@ export const DestinationPicker = ({ value, onChange, error }: Props) => {
     if (!window.daum?.Postcode) {
       throw new Error('SDK_NOT_READY');
     }
-    setSdkReady(true);
   }, []);
-
-  useEffect(() => {
-    void loadPostcodeSdk().catch(() =>
-      setSdkError('주소 검색 SDK를 불러오지 못했어요. 잠시 후 다시 시도해주세요.')
-    );
-  }, [loadPostcodeSdk]);
 
   const openAddressSearch = async () => {
     setSdkError('');
@@ -111,7 +102,7 @@ export const DestinationPicker = ({ value, onChange, error }: Props) => {
               type="button"
               className="text-body-sm font-semibold text-brand-blue-600"
               onClick={openAddressSearch}
-              disabled={isOpening || !sdkReady}
+              disabled={isOpening}
             >
               변경하기
             </button>
@@ -125,7 +116,7 @@ export const DestinationPicker = ({ value, onChange, error }: Props) => {
           type="button"
           className="flex h-11 w-full items-center rounded-lg border border-neutral-300 bg-neutral-0 px-4 text-body-sm text-neutral-500 transition-colors duration-base ease-standard hover:bg-neutral-50"
           onClick={openAddressSearch}
-          disabled={isOpening || !sdkReady}
+          disabled={isOpening}
         >
           <span className="mr-2 text-brand-blue-600" aria-hidden>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
