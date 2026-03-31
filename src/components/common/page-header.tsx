@@ -1,6 +1,6 @@
 export const PageHeader = () => (
-  <header className="mx-auto max-w-xl space-y-4 py-12 text-center md:py-14">
-    <h1 className="inline-flex items-center gap-2 text-heading-h2 font-bold">
+  <header className="mx-auto flex h-[11.5625rem] w-full max-w-[30.3125rem] flex-col items-center justify-center gap-[0.9375rem] px-4 pt-12 text-center">
+    <div className="inline-flex items-center justify-start gap-3">
       <span aria-hidden className="text-brand-blue-600">
         <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
           <path
@@ -9,10 +9,12 @@ export const PageHeader = () => (
           />
         </svg>
       </span>
-      <span className="bg-[image:var(--gradient-brand)] bg-clip-text text-transparent">언제올까?</span>
-    </h1>
-    <p className="text-body-lg text-neutral-700">
-      택배사, 송장번호, 도착지를 입력하면
+      <h1 className="bg-[image:var(--gradient-brand)] bg-clip-text text-center text-4xl font-bold leading-10 tracking-tight text-black/0 font-['Noto_Sans_KR']">
+        언제올까?
+      </h1>
+    </div>
+    <p className="self-stretch text-center text-lg font-normal leading-7 text-gray-600 font-['Noto_Sans_KR']">
+      AI 택배 예언가가
       <br />
       예상 도착 시간을 알려드려요.
     </p>

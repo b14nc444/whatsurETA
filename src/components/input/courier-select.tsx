@@ -15,6 +15,11 @@ export const CourierSelect = ({ couriers, value, onChange, disabled }: Props) =>
         id="courierCode"
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        className={
+          value
+            ? 'bg-blue-600/10 text-neutral-950 outline-blue-600/40'
+            : 'text-neutral-950/50'
+        }
         disabled={disabled}
         required
       >
