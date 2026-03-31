@@ -9,7 +9,6 @@ import { ErrorState } from '@/components/error/error-state';
 import { ProgressTable } from '@/components/result/progress-table';
 import { EtaCard } from '@/components/result/eta-card';
 import { SearchForm } from '@/components/input/search-form';
-import { FAQSection } from '@/components/common/faq-section';
 import { AdSlot } from '@/components/common/ad-slot';
 
 type Props = {
@@ -56,7 +55,6 @@ export const ResultView = ({ queryId }: Props) => {
         reason={data.prediction.reason}
       />
       <ProgressTable progresses={data.tracking.progresses} />
-      <FAQSection />
       <AdSlot slot="C" />
     </div>
   );

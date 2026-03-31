@@ -76,10 +76,10 @@ export const SearchForm = ({ onSuccess }: Props) => {
       }
     });
 
-    if (!result.response) {
+    if (!result || !result.response) {
       trackEvent('search_error', {
         courierCode,
-        errorCode: result.error?.error.code ?? 'SYSTEM_ERROR'
+        errorCode: result?.error?.error.code ?? 'SYSTEM_ERROR'
       });
       setToast({
         open: true,
