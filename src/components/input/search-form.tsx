@@ -7,7 +7,6 @@ import { Toast } from '@/components/common/toast';
 import { CourierSelect } from '@/components/input/courier-select';
 import { TrackingInput } from '@/components/input/tracking-input';
 import { DestinationPicker } from '@/components/input/destination-picker';
-import { RetryButton } from '@/components/common/retry-button';
 import { useCouriers } from '@/hooks/use-couriers';
 import { useTrack } from '@/hooks/use-track';
 import { trackEvent } from '@/lib/events';
@@ -128,7 +127,9 @@ export const SearchForm = ({ onSuccess }: Props) => {
         {couriersError ? (
           <div className="flex items-center justify-between rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700">
             <span>{couriersError}</span>
-            <RetryButton onClick={refetch} />
+            <Button variant="secondary" onClick={refetch}>
+              다시 시도
+            </Button>
           </div>
         ) : null}
 
