@@ -130,9 +130,7 @@ export const DestinationPicker = ({ value, onChange, error }: Props) => {
           </span>
           <span className="text-left">{isOpening ? '주소 검색 준비 중...' : '도착지 검색'}</span>
           <span className="ml-auto text-neutral-500" aria-hidden>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="m9 5 6 7-6 7" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-            </svg>
+            <img src="/icons/search.svg" alt="" className="h-[17px] w-[17px] opacity-75" />
           </span>
         </button>
       )}

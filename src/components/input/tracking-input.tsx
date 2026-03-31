@@ -22,10 +22,7 @@ export const TrackingInput = ({ value, onChange, error }: Props) => (
         required
       />
       <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500" aria-hidden>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-          <circle cx="11" cy="11" r="6.5" stroke="currentColor" strokeWidth="1.7" />
-          <path d="m16 16 4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-        </svg>
+        <img src="/icons/write.svg" alt="" className="h-[17px] w-[17px] opacity-75" />
       </span>
     </div>
   </InputField>

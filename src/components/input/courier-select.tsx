@@ -26,9 +26,7 @@ export const CourierSelect = ({ couriers, value, onChange, disabled }: Props) =>
         ))}
       </SelectInput>
       <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500" aria-hidden>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-          <path d="m7 10 5 5 5-5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-        </svg>
+        <img src="/icons/dropdown.svg" alt="" className="h-4 w-4 opacity-70" />
       </span>
     </div>
   </InputField>
