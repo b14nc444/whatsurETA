@@ -10,7 +10,7 @@ export const ETA_HIDDEN_STATUSES: DeliveryStatus[] = [
 ];
 
 export const ERROR_MESSAGES: Record<ApiErrorCode, string> = {
-  INVALID_TRACKING_NUMBER: '송장번호 형식을 다시 확인해주세요.',
+  INVALID_TRACKING_NUMBER: '송장번호를 다시 확인해주세요.',
   DESTINATION_REQUIRED: '도착지를 선택해주세요.',
   NOT_FOUND:
     '아직 택배사 시스템에 반영되지 않았거나 송장번호가 일치하지 않아요. 1~3시간 뒤 다시 확인해보세요.',
