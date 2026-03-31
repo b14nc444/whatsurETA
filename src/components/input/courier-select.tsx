@@ -9,7 +9,13 @@ type Props = {
   disabled?: boolean;
 };
 
-export const CourierSelect = ({ couriers, value, onChange, loading = false, disabled }: Props) => (
+export const CourierSelect = ({
+  couriers,
+  value,
+  onChange,
+  loading = false,
+  disabled
+}: Props) => (
   <InputField id="courierCode" label="택배사" required>
     <div className="relative">
       <SelectInput

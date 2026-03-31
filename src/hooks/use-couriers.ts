@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 import { getCouriers } from '@/lib/api-client';
 import type { Courier } from '@/types/courier';
 
