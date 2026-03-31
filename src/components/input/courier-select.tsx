@@ -5,10 +5,11 @@ type Props = {
   couriers: Courier[];
   value: string;
   onChange: (value: string) => void;
+  loading?: boolean;
   disabled?: boolean;
 };
 
-export const CourierSelect = ({ couriers, value, onChange, disabled }: Props) => (
+export const CourierSelect = ({ couriers, value, onChange, loading = false, disabled }: Props) => (
   <InputField id="courierCode" label="택배사" required>
     <div className="relative">
       <SelectInput
@@ -23,7 +24,7 @@ export const CourierSelect = ({ couriers, value, onChange, disabled }: Props) =>
         disabled={disabled}
         required
       >
-        <option value="">택배사를 선택해주세요.</option>
+        <option value="">{loading ? '택배사를 불러오고 있어요...' : '택배사를 선택해주세요.'}</option>
         {couriers.map((courier) => (
           <option key={courier.code} value={courier.code}>
             {courier.name}

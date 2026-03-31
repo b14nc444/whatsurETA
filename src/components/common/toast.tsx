@@ -36,7 +36,7 @@ export const Toast = ({
       role="status"
       aria-live="polite"
       className={cn(
-        'pointer-events-none fixed left-1/2 top-6 z-50 inline-flex w-[min(92vw,24rem)] -translate-x-1/2 items-start justify-start gap-3 transition-all duration-base ease-standard',
+        'pointer-events-none fixed left-1/2 top-3 z-50 inline-flex w-[min(92vw,24rem)] -translate-x-1/2 items-start justify-start transition-all duration-base ease-standard',
         open ? 'translate-y-0 opacity-100' : '-translate-y-2 opacity-0'
       )}
     >

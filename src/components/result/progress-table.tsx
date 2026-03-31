@@ -6,6 +6,9 @@ import { formatDateTimeKo } from '@/lib/formatter';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 
+const RESULT_SECTION_CARD_CLASS =
+  'w-full !rounded-2xl !border !border-[#F3F4F6] !bg-white !p-9 !shadow-[0_10px_15px_-3px_rgba(229,231,235,0.50)]';
+
 type Props = {
   progresses: Progress[];
 };
@@ -28,7 +31,11 @@ export const ProgressTable = ({ progresses }: Props) => {
   const latestIndex = sorted.length - 1;
 
   if (!sorted.length) {
-    return <Card preset="content" className="text-body-sm text-neutral-700">진행 이력이 아직 없어요.</Card>;
+    return (
+      <Card preset="content" className={`${RESULT_SECTION_CARD_CLASS} text-body-sm text-neutral-700`}>
+        진행 이력이 아직 없어요.
+      </Card>
+    );
   }
 
   const renderRows = (entries: Array<{ row: Progress; index: number }>, fadedTop = false) =>
@@ -69,7 +76,7 @@ export const ProgressTable = ({ progresses }: Props) => {
     });
 
   return (
-    <Card preset="content" className="space-y-6">
+    <Card preset="content" className={`${RESULT_SECTION_CARD_CLASS} space-y-6`}>
       <h2 className="text-heading-h3">배송 현황</h2>
       <div className="space-y-6">
         {shouldCollapseOlder ? (

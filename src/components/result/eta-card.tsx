@@ -1,6 +1,9 @@
 import { formatEtaLabel } from '@/lib/formatter';
 import { Card } from '@/components/ui/card';
 
+const RESULT_SECTION_CARD_CLASS =
+  'w-full !rounded-2xl !border !border-[#F3F4F6] !bg-white !p-9 !shadow-[0_10px_15px_-3px_rgba(229,231,235,0.50)]';
+
 type Props = {
   earliestEta: string | null;
   latestEta: string | null;
@@ -11,7 +14,7 @@ type Props = {
 export const EtaCard = ({ earliestEta, latestEta, hidden, reason }: Props) => {
   if (hidden) {
     return (
-      <Card preset="content" className="space-y-4">
+      <Card preset="content" className={`${RESULT_SECTION_CARD_CLASS} space-y-4`}>
         <h2 className="text-heading-h3">예상 도착 시간</h2>
         <p className="rounded-2xl border border-[#FFF085] bg-[#FEFCE8] px-6 py-8 text-body-lg text-neutral-700">
           현재 배송 단계에서는 정확한 도착 시간 예측이 어려워요. 배송 현황을 참고해주세요.
@@ -21,11 +24,15 @@ export const EtaCard = ({ earliestEta, latestEta, hidden, reason }: Props) => {
   }
 
   if (!earliestEta || !latestEta) {
-    return <Card preset="content" className="text-body-sm text-neutral-700">도착 시간 예측이 어려워요.</Card>;
+    return (
+      <Card preset="content" className={`${RESULT_SECTION_CARD_CLASS} text-body-sm text-neutral-700`}>
+        도착 시간 예측이 어려워요.
+      </Card>
+    );
   }
 
   return (
-    <Card preset="content" className="space-y-4">
+    <Card preset="content" className={`${RESULT_SECTION_CARD_CLASS} space-y-4`}>
       <h2 className="text-heading-h3">예상 도착 시간</h2>
       <div className="grid gap-3 md:grid-cols-2">
         <section className="rounded-xl border border-brand-blue-100 bg-brand-blue-50 p-4">
