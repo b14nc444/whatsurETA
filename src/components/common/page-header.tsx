@@ -9,11 +9,11 @@ export const PageHeader = () => (
           />
         </svg>
       </span>
-      <h1 className="bg-[image:var(--gradient-brand)] bg-clip-text text-center text-4xl font-bold leading-10 tracking-tight text-black/0 font-['Noto_Sans_KR']">
+      <h1 className="bg-[image:var(--gradient-brand)] bg-clip-text text-center text-4xl font-bold leading-10 tracking-tight text-black/0">
         언제올까?
       </h1>
     </div>
-    <p className="self-stretch text-center text-lg font-normal leading-7 text-gray-600 font-['Noto_Sans_KR']">
+    <p className="self-stretch text-center text-lg font-normal leading-7 text-gray-600">
       AI 택배 예언가가
       <br />
       예상 도착 시간을 알려드려요.

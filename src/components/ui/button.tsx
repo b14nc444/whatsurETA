@@ -21,7 +21,7 @@ const variantClass: Record<ButtonVariant, string> = {
 const sizeClass: Record<ButtonSize, string> = {
   sm: 'h-8 rounded-md px-3 text-caption font-semibold',
   md: 'h-11 rounded-md px-4 text-body-sm font-semibold',
-  lg: "h-14 rounded-2xl px-4 py-3.5 text-base font-normal font-['Noto_Sans_KR']"
+  lg: "h-14 rounded-2xl px-4 py-3.5 text-base font-normal"
 };
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {

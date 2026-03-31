@@ -176,7 +176,7 @@ export const SearchForm = ({ onSuccess }: Props) => {
             조회하기
           </Button>
           {submitError ? (
-            <p className="w-full text-sm font-normal text-rose-500 font-['Noto_Sans_KR']">
+            <p className="w-full text-sm font-normal text-rose-500">
               조회되지 않는 배송 건입니다. 입력 정보를 확인해주세요.
             </p>
           ) : null}

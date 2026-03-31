@@ -2,7 +2,7 @@ import type { InputHTMLAttributes, ReactNode, SelectHTMLAttributes } from 'react
 import { cn } from '@/lib/cn';
 
 export const inputControlClassName =
-  "h-14 w-full rounded-2xl bg-neutral-0 px-4 py-3.5 text-base font-normal font-['Noto_Sans_KR'] text-neutral-950 outline outline-1 outline-offset-[-1px] outline-neutral-300 transition-colors duration-base ease-standard placeholder:text-neutral-950/50 hover:outline-brand-blue-600 focus:bg-neutral-0 focus:outline-brand-blue-600 disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-500";
+  "h-14 w-full rounded-2xl bg-neutral-0 px-4 py-3.5 text-base font-normal text-neutral-950 outline outline-1 outline-offset-[-1px] outline-neutral-300 transition-colors duration-base ease-standard placeholder:text-neutral-950/50 hover:outline-brand-blue-600 focus:bg-neutral-0 focus:outline-brand-blue-600 disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-500";
 
 type InputFieldProps = {
   id?: string;
@@ -34,7 +34,7 @@ export const InputField = ({
       <div className={cn(error || hint ? 'w-full space-y-2' : 'w-full')}>
         {children}
         {error ? (
-          <p id={messageId} className="w-full text-sm font-normal text-rose-500 font-['Noto_Sans_KR']">
+          <p id={messageId} className="w-full text-sm font-normal text-rose-500">
             {error}
           </p>
         ) : hint ? (
