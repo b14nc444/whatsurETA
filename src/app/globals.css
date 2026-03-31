@@ -98,11 +98,15 @@ input:-webkit-autofill:focus {
 }
 
 .hero-band {
-  @apply border-b border-neutral-100 bg-neutral-0;
+  @apply border-b border-neutral-100;
 }
 
 .content-column {
-  @apply mx-auto flex w-full max-w-3xl flex-col gap-6 px-4 py-8 md:py-10;
+  @apply mx-auto flex w-full max-w-[31.25rem] flex-col items-center gap-[1.8125rem] px-4 py-8 md:py-10;
+}
+
+.content-column > * {
+  @apply w-full;
 }
 
 @layer utilities {

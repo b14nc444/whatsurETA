@@ -114,7 +114,12 @@ export const SearchForm = ({ onSuccess }: Props) => {
   return (
     <>
       <Toast open={toast.open} type={toast.type} message={toast.message} onClose={closeToast} />
-      <Card as="form" preset="form" className="space-y-4" onSubmit={onSubmit}>
+      <Card
+        as="form"
+        preset="form"
+        className="flex w-full self-stretch flex-col items-start gap-[1.625rem] !p-9 [&>*]:w-full"
+        onSubmit={onSubmit}
+      >
         <CourierSelect
           couriers={couriers}
           value={courierCode}
