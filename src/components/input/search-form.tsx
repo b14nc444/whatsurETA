@@ -10,7 +10,12 @@ import { useCouriers } from "@/hooks/use-couriers";
 import { useTrack } from "@/hooks/use-track";
 import { ERROR_MESSAGES } from "@/lib/constants";
 import { trackEvent } from "@/lib/events";
-import { getLastCourierCode, setLastCourierCode } from "@/lib/storage";
+import {
+  getLastCourierCode,
+  getLastDestination,
+  setLastCourierCode,
+  setLastDestination,
+} from "@/lib/storage";
 import {
   isDestinationValid,
   isTrackingNumberValid,
@@ -66,7 +71,20 @@ export const SearchForm = ({ onSuccess }: Props) => {
     if (stored) {
       setCourierCode(stored);
     }
+
+    const storedDestination = getLastDestination();
+    if (
+      storedDestination &&
+      isDestinationValid(storedDestination.postalCode, storedDestination.baseAddress)
+    ) {
+      setDestination(storedDestination);
+    }
   }, []);
+
+  useEffect(() => {
+    if (!isDestinationValid(destination.postalCode, destination.baseAddress)) return;
+    setLastDestination(destination);
+  }, [destination]);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -142,6 +160,7 @@ export const SearchForm = ({ onSuccess }: Props) => {
           couriers={couriers}
           value={courierCode}
           onChange={setCourierCode}
+          loading={couriersLoading}
           disabled={couriersLoading || submitting}
         />
         <TrackingInput
