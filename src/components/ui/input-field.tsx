@@ -2,7 +2,7 @@ import type { InputHTMLAttributes, ReactNode, SelectHTMLAttributes } from 'react
 import { cn } from '@/lib/cn';
 
 export const inputControlClassName =
-  'h-11 w-full rounded-lg border border-neutral-300 bg-neutral-0 px-4 text-body-sm text-neutral-900 outline-none transition-colors duration-base ease-standard placeholder:text-neutral-500 focus:border-brand-blue-600 focus:ring-2 focus:ring-brand-blue-100 disabled:cursor-not-allowed disabled:bg-neutral-100';
+  "h-14 w-full rounded-2xl bg-neutral-0 px-4 py-3.5 text-base font-normal font-['Noto_Sans_KR'] text-neutral-950 outline outline-1 outline-offset-[-1px] outline-neutral-300 transition-colors duration-base ease-standard placeholder:text-neutral-950/50 hover:outline-brand-blue-600 focus:bg-neutral-0 focus:outline-brand-blue-600 disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-500";
 
 type InputFieldProps = {
   id?: string;
@@ -26,8 +26,8 @@ export const InputField = ({
   const messageId = id ? `${id}-message` : undefined;
 
   return (
-    <div className={cn('space-y-2', className)}>
-      <label className="block text-body-sm font-semibold text-neutral-900" htmlFor={id}>
+    <div className={cn('space-y-3', className)}>
+      <label className="block text-sm font-bold leading-5 text-gray-900" htmlFor={id}>
         {label}
         {required ? <span className="sr-only">필수 입력</span> : null}
       </label>
@@ -53,11 +53,20 @@ type SelectInputProps = SelectHTMLAttributes<HTMLSelectElement> & {
   hasError?: boolean;
 };
 
+const hasInputValue = (value: unknown): boolean => {
+  if (typeof value === 'string') return value.length > 0;
+  if (typeof value === 'number') return true;
+  return false;
+};
+
 export const TextInput = ({ className, hasError = false, ...props }: TextInputProps) => (
   <input
     className={cn(
       inputControlClassName,
-      hasError && 'border-state-error-600 focus:border-state-error-600 focus:ring-state-error-100',
+      hasInputValue(props.value) &&
+        !hasError &&
+        'bg-brand-blue-600/10 outline-brand-blue-600/40 hover:outline-brand-blue-600/60 focus:bg-neutral-0 focus:outline-brand-blue-600',
+      hasError && 'bg-neutral-0 outline-rose-500 hover:outline-rose-500 focus:outline-rose-500',
       className
     )}
     {...props}
@@ -69,7 +78,10 @@ export const SelectInput = ({ className, hasError = false, ...props }: SelectInp
     className={cn(
       inputControlClassName,
       'appearance-none pr-10',
-      hasError && 'border-state-error-600 focus:border-state-error-600 focus:ring-state-error-100',
+      hasInputValue(props.value) &&
+        !hasError &&
+        'bg-brand-blue-600/10 outline-brand-blue-600/40 hover:outline-brand-blue-600/60 focus:bg-neutral-0 focus:outline-brand-blue-600',
+      hasError && 'bg-neutral-0 outline-rose-500 hover:outline-rose-500 focus:outline-rose-500',
       className
     )}
     {...props}

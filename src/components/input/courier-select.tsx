@@ -18,7 +18,7 @@ export const CourierSelect = ({ couriers, value, onChange, disabled }: Props) =>
         disabled={disabled}
         required
       >
-        <option value="">택배사를 선택해주세요</option>
+        <option value="">택배사를 선택해주세요.</option>
         {couriers.map((courier) => (
           <option key={courier.code} value={courier.code}>
             {courier.name}
@@ -26,7 +26,7 @@ export const CourierSelect = ({ couriers, value, onChange, disabled }: Props) =>
         ))}
       </SelectInput>
       <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500" aria-hidden>
-        <img src="/icons/dropdown.svg" alt="" className="h-4 w-4 opacity-70" />
+        <img src="/icons/dropdown.svg" alt="" className="h-5 w-5 opacity-70" />
       </span>
     </div>
   </InputField>

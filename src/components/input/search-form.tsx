@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Toast } from '@/components/common/toast';
@@ -24,7 +24,7 @@ export const SearchForm = ({ onSuccess }: Props) => {
   const { couriers, loading: couriersLoading, error: couriersError, refetch } = useCouriers();
   const { submit, loading: submitting, error: submitError } = useTrack();
 
-  const [courierCode, setCourierCode] = useState<string>(() => getLastCourierCode() ?? '');
+  const [courierCode, setCourierCode] = useState<string>('');
   const [trackingNumber, setTrackingNumber] = useState('');
   const [destination, setDestination] = useState({
     postalCode: '',
@@ -46,6 +46,13 @@ export const SearchForm = ({ onSuccess }: Props) => {
 
   const closeToast = useCallback(() => {
     setToast((prev) => ({ ...prev, open: false }));
+  }, []);
+
+  useEffect(() => {
+    const stored = getLastCourierCode();
+    if (stored) {
+      setCourierCode(stored);
+    }
   }, []);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -108,7 +115,7 @@ export const SearchForm = ({ onSuccess }: Props) => {
   return (
     <>
       <Toast open={toast.open} type={toast.type} message={toast.message} onClose={closeToast} />
-      <Card as="form" preset="form" className="space-y-5" onSubmit={onSubmit}>
+      <Card as="form" preset="form" className="space-y-4" onSubmit={onSubmit}>
         <CourierSelect
           couriers={couriers}
           value={courierCode}
