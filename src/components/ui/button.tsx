@@ -7,9 +7,9 @@ type ButtonSize = 'sm' | 'md' | 'lg';
 
 const variantClass: Record<ButtonVariant, string> = {
   'primary-gradient':
-    'border border-transparent bg-[image:var(--gradient-brand)] text-neutral-0 shadow-token-sm hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50',
+    'disabled:cursor-not-allowed',
   primary:
-    'border border-transparent bg-[image:var(--gradient-brand)] text-neutral-0 shadow-token-sm hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50',
+    'disabled:cursor-not-allowed',
   'secondary-outline':
     'border border-neutral-300 bg-neutral-0 text-neutral-700 hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-50',
   secondary:
@@ -21,7 +21,7 @@ const variantClass: Record<ButtonVariant, string> = {
 const sizeClass: Record<ButtonSize, string> = {
   sm: 'h-8 rounded-md px-3 text-caption font-semibold',
   md: 'h-11 rounded-md px-4 text-body-sm font-semibold',
-  lg: 'h-14 rounded-lg px-6 text-body-md font-semibold'
+  lg: "h-14 rounded-2xl px-4 py-3.5 text-base font-normal font-['Noto_Sans_KR']"
 };
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -51,9 +51,19 @@ export const Button = ({
   ...props
 }: ButtonProps) => {
   const isDisabled = disabled || loading;
+  const isPrimaryLike = variant === 'primary-gradient' || variant === 'primary';
+  const primaryStateClass = isPrimaryLike
+    ? loading
+      ? 'bg-gradient-to-r from-blue-600/40 to-purple-600/40 text-white font-bold outline outline-1 outline-offset-[-1px] outline-transparent'
+      : isDisabled
+        ? 'bg-zinc-100 text-neutral-950/50 font-normal'
+        : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold outline outline-1 outline-offset-[-1px] outline-transparent'
+    : '';
+
   const classes = cn(
-    'inline-flex items-center justify-center gap-1.5 transition-transform transition-colors duration-base ease-standard outline-none focus-visible:ring-2 focus-visible:ring-brand-blue-100 focus-visible:ring-offset-1',
+    'inline-flex items-center justify-center gap-1.5 overflow-hidden text-center transition-transform transition-colors duration-base ease-standard outline-none focus-visible:ring-2 focus-visible:ring-brand-blue-100 focus-visible:ring-offset-1',
     variantClass[variant],
+    primaryStateClass,
     sizeClass[size],
     fullWidth && 'w-full',
     className
