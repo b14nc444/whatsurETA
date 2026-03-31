@@ -117,7 +117,7 @@ export const SearchForm = ({ onSuccess }: Props) => {
       <Card
         as="form"
         preset="form"
-        className="flex w-full self-stretch flex-col items-start gap-[1.625rem] !p-9 [&>*]:w-full"
+        className="flex w-full self-stretch flex-col items-start gap-[1.625rem] !rounded-2xl !border !border-[#F3F4F6] !bg-white !p-9 !shadow-[0_10px_15px_-3px_rgba(229,231,235,0.50)] [&>*]:w-full"
         onSubmit={onSubmit}
       >
         <CourierSelect

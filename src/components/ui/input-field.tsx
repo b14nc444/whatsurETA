@@ -31,16 +31,18 @@ export const InputField = ({
         {label}
         {required ? <span className="sr-only">필수 입력</span> : null}
       </label>
-      {children}
-      {error ? (
-        <p id={messageId} className="text-xs text-state-error-700">
-          {error}
-        </p>
-      ) : hint ? (
-        <p id={messageId} className="text-xs text-neutral-500">
-          {hint}
-        </p>
-      ) : null}
+      <div className={cn(error || hint ? 'w-full space-y-2' : 'w-full')}>
+        {children}
+        {error ? (
+          <p id={messageId} className="w-full text-sm font-normal text-rose-500 font-['Noto_Sans_KR']">
+            {error}
+          </p>
+        ) : hint ? (
+          <p id={messageId} className="w-full text-xs text-neutral-500">
+            {hint}
+          </p>
+        ) : null}
+      </div>
     </div>
   );
 };
@@ -65,7 +67,7 @@ export const TextInput = ({ className, hasError = false, ...props }: TextInputPr
       inputControlClassName,
       hasInputValue(props.value) &&
         !hasError &&
-        'bg-brand-blue-600/10 outline-brand-blue-600/40 hover:outline-brand-blue-600/60 focus:bg-neutral-0 focus:outline-brand-blue-600',
+        'bg-[#2F5FFF1A] outline-[#2F5FFF66] hover:outline-[#2F5FFF99] focus:bg-neutral-0 focus:outline-brand-blue-600',
       hasError && 'bg-neutral-0 outline-rose-500 hover:outline-rose-500 focus:outline-rose-500',
       className
     )}
@@ -80,7 +82,7 @@ export const SelectInput = ({ className, hasError = false, ...props }: SelectInp
       'appearance-none pr-10',
       hasInputValue(props.value) &&
         !hasError &&
-        'bg-brand-blue-600/10 outline-brand-blue-600/40 hover:outline-brand-blue-600/60 focus:bg-neutral-0 focus:outline-brand-blue-600',
+        'bg-[#2F5FFF1A] outline-[#2F5FFF66] hover:outline-[#2F5FFF99] focus:bg-neutral-0 focus:outline-brand-blue-600',
       hasError && 'bg-neutral-0 outline-rose-500 hover:outline-rose-500 focus:outline-rose-500',
       className
     )}

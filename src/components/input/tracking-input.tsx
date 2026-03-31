@@ -18,7 +18,7 @@ export const TrackingInput = ({ value, onChange, error }: Props) => (
           "pr-11",
           value &&
             !error &&
-            "bg-blue-600/10 text-neutral-950 outline-blue-600/40",
+            "bg-[#2F5FFF1A] text-neutral-950 outline-[#2F5FFF66]",
         )}
         hasError={Boolean(error)}
         value={value}

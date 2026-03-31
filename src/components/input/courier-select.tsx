@@ -17,7 +17,7 @@ export const CourierSelect = ({ couriers, value, onChange, disabled }: Props) =>
         onChange={(e) => onChange(e.target.value)}
         className={
           value
-            ? 'bg-blue-600/10 text-neutral-950 outline-blue-600/40'
+            ? 'bg-[#2F5FFF1A] text-neutral-950 outline-[#2F5FFF66]'
             : 'text-neutral-950/50'
         }
         disabled={disabled}
