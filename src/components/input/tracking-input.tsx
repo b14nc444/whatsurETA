@@ -12,7 +12,7 @@ export const TrackingInput = ({ value, onChange, error }: Props) => (
       <TextInput
         id="trackingNumber"
         type="text"
-        placeholder="숫자만 입력해주세요"
+        placeholder="숫자만 입력해주세요."
         className="pr-11"
         hasError={Boolean(error)}
         value={value}
@@ -22,7 +22,7 @@ export const TrackingInput = ({ value, onChange, error }: Props) => (
         required
       />
       <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500" aria-hidden>
-        <img src="/icons/write.svg" alt="" className="h-[17px] w-[17px] opacity-75" />
+        <img src="/icons/write.svg" alt="" className="h-5 w-5 opacity-75" />
       </span>
     </div>
   </InputField>

@@ -1,7 +1,8 @@
 'use client';
 
 import { useCallback, useState } from 'react';
-import { FieldInlineAction, InputField } from '@/components/ui/input-field';
+import { InputField, inputControlClassName } from '@/components/ui/input-field';
+import { cn } from '@/lib/cn';
 
 const DAUM_POSTCODE_SCRIPT_URL =
   'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
@@ -81,59 +82,29 @@ export const DestinationPicker = ({ value, onChange, error }: Props) => {
   };
 
   const message = error || sdkError;
-  const hasSelectedDestination = Boolean(value.baseAddress);
+  const displayText = value.baseAddress || (isOpening ? '주소 검색 준비 중...' : '도착지를 입력해주세요.');
 
   return (
-    <InputField label="도착지" required error={message}>
-      {hasSelectedDestination ? (
-        <FieldInlineAction
-          leading={
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M12 21s7-6.13 7-11a7 7 0 1 0-14 0c0 4.87 7 11 7 11Z"
-                stroke="currentColor"
-                strokeWidth="1.7"
-              />
-              <circle cx="12" cy="10" r="2.2" stroke="currentColor" strokeWidth="1.7" />
-            </svg>
-          }
-          trailing={
-            <button
-              type="button"
-              className="text-body-sm font-semibold text-brand-blue-600"
-              onClick={openAddressSearch}
-              disabled={isOpening}
-            >
-              변경하기
-            </button>
-          }
-          className={message ? 'border-state-error-600 bg-state-error-50' : undefined}
-        >
-          {value.baseAddress}
-        </FieldInlineAction>
-      ) : (
-        <button
-          type="button"
-          className="flex h-11 w-full items-center rounded-lg border border-neutral-300 bg-neutral-0 px-4 text-body-sm text-neutral-500 transition-colors duration-base ease-standard hover:bg-neutral-50"
-          onClick={openAddressSearch}
-          disabled={isOpening}
-        >
-          <span className="mr-2 text-brand-blue-600" aria-hidden>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M12 21s7-6.13 7-11a7 7 0 1 0-14 0c0 4.87 7 11 7 11Z"
-                stroke="currentColor"
-                strokeWidth="1.7"
-              />
-              <circle cx="12" cy="10" r="2.2" stroke="currentColor" strokeWidth="1.7" />
-            </svg>
-          </span>
-          <span className="text-left">{isOpening ? '주소 검색 준비 중...' : '도착지 검색'}</span>
-          <span className="ml-auto text-neutral-500" aria-hidden>
-            <img src="/icons/search.svg" alt="" className="h-[17px] w-[17px] opacity-75" />
-          </span>
-        </button>
-      )}
+    <InputField id="destination" label="도착지" required error={message}>
+      <button
+        id="destination"
+        type="button"
+        className={cn(
+          inputControlClassName,
+          'flex items-center justify-between text-left',
+          value.baseAddress ? 'bg-brand-blue-600/10 outline-brand-blue-600/40 text-neutral-950' : 'text-neutral-950/50',
+          message && 'bg-neutral-0 outline-rose-500 hover:outline-rose-500 focus:outline-rose-500'
+        )}
+        onClick={openAddressSearch}
+        disabled={isOpening}
+        aria-invalid={Boolean(message)}
+        aria-describedby={message ? 'destination-message' : undefined}
+      >
+        <span className="truncate pr-4">{displayText}</span>
+        <span className="shrink-0 text-neutral-500" aria-hidden>
+          <img src="/icons/search.svg" alt="" className="h-5 w-5 opacity-75" />
+        </span>
+      </button>
     </InputField>
   );
 };
