@@ -203,8 +203,11 @@ export const SearchForm = ({ onSuccess }: Props) => {
             type="submit"
             fullWidth
             size="lg"
+            className="mx-auto h-[3.375rem] max-w-[25.8125rem] justify-between rounded-[0.875rem] px-4 py-[0.875rem]"
             loading={submitting}
             loadingText="조회 중..."
+            leftIcon={<span className="h-5 w-5 opacity-0" aria-hidden />}
+            rightIcon={<span className="h-5 w-5 opacity-0" aria-hidden />}
             disabled={!canSubmit || couriersLoading}>
             조회하기
           </Button>

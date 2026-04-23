@@ -54,10 +54,10 @@ export const Button = ({
   const isPrimaryLike = variant === 'primary-gradient' || variant === 'primary';
   const primaryStateClass = isPrimaryLike
     ? loading
-      ? 'bg-gradient-to-r from-blue-600/40 to-purple-600/40 text-white font-bold outline outline-1 outline-offset-[-1px] outline-transparent'
+      ? 'bg-[image:linear-gradient(90deg,rgba(21,93,252,0.40)_0%,rgba(152,16,250,0.40)_100%),linear-gradient(#F3F3F3,#F3F3F3)] text-white font-bold outline outline-1 outline-offset-[-1px] outline-transparent'
       : isDisabled
-        ? 'bg-zinc-100 text-neutral-950/50 font-normal'
-        : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold outline outline-1 outline-offset-[-1px] outline-transparent'
+        ? 'bg-[#F3F3F3] text-neutral-950/50 font-normal'
+        : 'bg-gradient-to-r from-[#155DFC] to-[#9810FA] text-white font-bold outline outline-1 outline-offset-[-1px] outline-transparent'
     : '';
 
   const classes = cn(
