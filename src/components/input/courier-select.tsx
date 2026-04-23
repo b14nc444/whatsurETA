@@ -24,7 +24,7 @@ export const CourierSelect = ({
         onChange={(e) => onChange(e.target.value)}
         className={
           value
-            ? 'bg-[#2F5FFF1A] text-neutral-950 outline-[#2F5FFF66]'
+            ? 'bg-[#155DFC1A] text-neutral-950 outline-[#155DFC66]'
             : 'text-neutral-950/50'
         }
         disabled={disabled}

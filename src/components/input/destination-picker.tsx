@@ -96,7 +96,7 @@ export const DestinationPicker = ({ value, onChange, error }: Props) => {
           inputControlClassName,
           "flex items-center justify-between text-left",
           value.baseAddress
-            ? "bg-[#2F5FFF1A] text-neutral-950 outline-[#2F5FFF66]"
+            ? "bg-[#155DFC1A] text-neutral-950 outline-[#155DFC66]"
             : "text-neutral-950/50",
           message &&
             "bg-neutral-0 outline-rose-500 hover:outline-rose-500 focus:outline-rose-500",

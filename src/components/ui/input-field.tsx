@@ -67,7 +67,7 @@ export const TextInput = ({ className, hasError = false, ...props }: TextInputPr
       inputControlClassName,
       hasInputValue(props.value) &&
         !hasError &&
-        'bg-[#2F5FFF1A] outline-[#2F5FFF66] hover:outline-[#2F5FFF99] focus:bg-neutral-0 focus:outline-brand-blue-600',
+        'bg-[#155DFC1A] outline-[#155DFC66] hover:outline-[#155DFC66] focus:bg-[#155DFC1A] focus:outline-[#155DFC66]',
       hasError && 'bg-neutral-0 outline-rose-500 hover:outline-rose-500 focus:outline-rose-500',
       className
     )}
@@ -82,7 +82,7 @@ export const SelectInput = ({ className, hasError = false, ...props }: SelectInp
       'appearance-none pr-10',
       hasInputValue(props.value) &&
         !hasError &&
-        'bg-[#2F5FFF1A] outline-[#2F5FFF66] hover:outline-[#2F5FFF99] focus:bg-neutral-0 focus:outline-brand-blue-600',
+        'bg-[#155DFC1A] outline-[#155DFC66] hover:outline-[#155DFC66] focus:bg-[#155DFC1A] focus:outline-[#155DFC66]',
       hasError && 'bg-neutral-0 outline-rose-500 hover:outline-rose-500 focus:outline-rose-500',
       className
     )}
