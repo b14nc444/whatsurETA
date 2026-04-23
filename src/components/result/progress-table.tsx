@@ -77,25 +77,33 @@ export const ProgressTable = ({ progresses }: Props) => {
 
   return (
     <Card preset="content" className={`${RESULT_SECTION_CARD_CLASS} space-y-6`}>
-      <h2 className="text-heading-h3">배송 현황</h2>
+      <div className="flex w-full items-center self-stretch pr-[23.3125rem]">
+        <h2 className="whitespace-nowrap text-[0.875rem] font-bold leading-5 tracking-[-0.00938rem] text-[#282828]">
+          배송 현황
+        </h2>
+      </div>
       <div className="space-y-6">
         {shouldCollapseOlder ? (
           <div className="space-y-6">
             <button
               type="button"
               className={`relative flex h-12 w-full items-center justify-center overflow-hidden rounded-lg text-body-sm font-semibold ${
-                olderExpanded ? 'border-0 text-neutral-500' : 'border border-neutral-200 text-neutral-700'
+                olderExpanded ? 'text-neutral-500' : 'text-neutral-700'
               }`}
               onClick={() => setOlderExpanded((prev) => !prev)}
             >
-              {!olderExpanded ? (
-                <>
-                  <span className="absolute inset-0 bg-gradient-to-b from-neutral-0/20 via-neutral-0/90 to-neutral-0" />
-                  <span className="relative">이전 배송 이력 {olderEntries.length}개 보기</span>
-                </>
-              ) : (
-                <span>이전 배송 이력 접기</span>
-              )}
+              {!olderExpanded ? <span className="absolute inset-0 bg-gradient-to-b from-neutral-0/20 via-neutral-0/90 to-neutral-0" /> : null}
+              <span className="relative flex items-center gap-1.5">
+                <span className="text-center text-base font-normal tracking-[-0.0195rem] text-[#99A1AF]">
+                  {olderExpanded ? '배송 이력 접기' : '배송 이력 전체보기'}
+                </span>
+                <img
+                  src="/icons/dropdown.svg"
+                  alt=""
+                  aria-hidden
+                  className={`h-5 w-5 shrink-0 ${olderExpanded ? 'rotate-180' : ''}`}
+                />
+              </span>
             </button>
             {olderExpanded ? <div className="space-y-6">{renderRows(olderEntries)}</div> : null}
           </div>

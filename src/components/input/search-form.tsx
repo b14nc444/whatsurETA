@@ -13,8 +13,10 @@ import { trackEvent } from "@/lib/events";
 import {
   getLastCourierCode,
   getLastDestination,
+  getLastTrackingNumber,
   setLastCourierCode,
   setLastDestination,
+  setLastTrackingNumber,
 } from "@/lib/storage";
 import {
   isDestinationValid,
@@ -72,6 +74,11 @@ export const SearchForm = ({ onSuccess }: Props) => {
       setCourierCode(stored);
     }
 
+    const storedTrackingNumber = getLastTrackingNumber();
+    if (storedTrackingNumber) {
+      setTrackingNumber(storedTrackingNumber);
+    }
+
     const storedDestination = getLastDestination();
     if (
       storedDestination &&
@@ -80,6 +87,14 @@ export const SearchForm = ({ onSuccess }: Props) => {
       setDestination(storedDestination);
     }
   }, []);
+
+  useEffect(() => {
+    setLastCourierCode(courierCode);
+  }, [courierCode]);
+
+  useEffect(() => {
+    setLastTrackingNumber(trackingNumber);
+  }, [trackingNumber]);
 
   useEffect(() => {
     if (!isDestinationValid(destination.postalCode, destination.baseAddress)) return;
@@ -102,7 +117,6 @@ export const SearchForm = ({ onSuccess }: Props) => {
       return;
     }
 
-    setLastCourierCode(courierCode);
     trackEvent("search_submit", { courierCode });
 
     const result = await submit({

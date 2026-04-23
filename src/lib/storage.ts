@@ -1,4 +1,5 @@
 const LAST_COURIER_KEY = 'lastCourierCode';
+const LAST_TRACKING_NUMBER_KEY = 'lastTrackingNumber';
 const LAST_DESTINATION_KEY = 'lastDestination';
 
 type StoredDestination = {
@@ -13,7 +14,25 @@ export const getLastCourierCode = (): string | null => {
 
 export const setLastCourierCode = (code: string): void => {
   if (typeof window === 'undefined') return;
+  if (!code) {
+    window.sessionStorage.removeItem(LAST_COURIER_KEY);
+    return;
+  }
   window.sessionStorage.setItem(LAST_COURIER_KEY, code);
+};
+
+export const getLastTrackingNumber = (): string => {
+  if (typeof window === 'undefined') return '';
+  return window.sessionStorage.getItem(LAST_TRACKING_NUMBER_KEY) ?? '';
+};
+
+export const setLastTrackingNumber = (trackingNumber: string): void => {
+  if (typeof window === 'undefined') return;
+  if (!trackingNumber) {
+    window.sessionStorage.removeItem(LAST_TRACKING_NUMBER_KEY);
+    return;
+  }
+  window.sessionStorage.setItem(LAST_TRACKING_NUMBER_KEY, trackingNumber);
 };
 
 export const getLastDestination = (): StoredDestination | null => {
