@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { PageHeader } from '@/components/common/page-header';
-import { FloatingHelpButton } from '@/components/common/floating-help-button';
 import { ResultView } from '@/components/result/result-view';
 
 type Props = {
@@ -25,7 +24,6 @@ export default async function ResultPage({ params }: Props) {
       <main className="content-column">
         <ResultView queryId={queryId} />
       </main>
-      <FloatingHelpButton />
     </div>
   );
 }

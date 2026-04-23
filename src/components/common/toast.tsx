@@ -14,8 +14,8 @@ type Props = {
 };
 
 const toneClass: Record<ToastType, string> = {
-  success: 'border-state-success-100 bg-state-success-50 text-state-success-700',
-  error: 'border-state-error-100 bg-state-error-50 text-state-error-700'
+  success: 'bg-green-700/10 outline-green-700/40 text-green-700',
+  error: 'bg-rose-500/10 outline-rose-500/40 text-rose-500'
 };
 
 export const Toast = ({
@@ -36,12 +36,18 @@ export const Toast = ({
       role="status"
       aria-live="polite"
       className={cn(
-        'pointer-events-none fixed left-1/2 top-6 z-50 w-[min(92vw,420px)] -translate-x-1/2 rounded-md border px-4 py-3 text-body-sm font-semibold shadow-token-md transition-all duration-base ease-standard',
-        toneClass[type],
+        'pointer-events-none fixed left-1/2 top-3 z-50 inline-flex w-[min(92vw,24rem)] -translate-x-1/2 items-start justify-start transition-all duration-base ease-standard',
         open ? 'translate-y-0 opacity-100' : '-translate-y-2 opacity-0'
       )}
     >
-      {message}
+      <div
+        className={cn(
+          "inline-flex flex-1 flex-col items-start justify-start gap-1.5 overflow-hidden rounded-2xl p-5 outline outline-1 outline-offset-[-1px]",
+          toneClass[type]
+        )}
+      >
+        <div className="w-full text-base font-bold leading-7">{message}</div>
+      </div>
     </div>
   );
 };

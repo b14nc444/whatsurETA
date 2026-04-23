@@ -21,7 +21,7 @@ const variantClass: Record<ButtonVariant, string> = {
 const sizeClass: Record<ButtonSize, string> = {
   sm: 'h-8 rounded-md px-3 text-caption font-semibold',
   md: 'h-11 rounded-md px-4 text-body-sm font-semibold',
-  lg: "h-14 rounded-2xl px-4 py-3.5 text-base font-normal font-['Noto_Sans_KR']"
+  lg: "h-14 rounded-2xl px-4 py-3.5 text-base font-normal"
 };
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -54,10 +54,10 @@ export const Button = ({
   const isPrimaryLike = variant === 'primary-gradient' || variant === 'primary';
   const primaryStateClass = isPrimaryLike
     ? loading
-      ? 'bg-gradient-to-r from-blue-600/40 to-purple-600/40 text-white font-bold outline outline-1 outline-offset-[-1px] outline-transparent'
+      ? 'bg-[image:linear-gradient(90deg,rgba(21,93,252,0.40)_0%,rgba(152,16,250,0.40)_100%),linear-gradient(#F3F3F3,#F3F3F3)] text-white font-bold outline outline-1 outline-offset-[-1px] outline-transparent'
       : isDisabled
-        ? 'bg-zinc-100 text-neutral-950/50 font-normal'
-        : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold outline outline-1 outline-offset-[-1px] outline-transparent'
+        ? 'bg-[#F3F3F3] text-neutral-950/50 font-normal'
+        : 'bg-gradient-to-r from-[#155DFC] to-[#9810FA] text-white font-bold outline outline-1 outline-offset-[-1px] outline-transparent'
     : '';
 
   const classes = cn(

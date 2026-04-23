@@ -2,11 +2,12 @@
 
 import { InputField, inputControlClassName } from "@/components/ui/input-field";
 import { cn } from "@/lib/cn";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const DAUM_POSTCODE_SCRIPT_URL =
   "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
 const DAUM_POSTCODE_SCRIPT_ID = "daum-postcode-sdk";
+const SDK_LOAD_TIMEOUT_MS = 5000;
 
 type Destination = {
   postalCode: string;
@@ -30,14 +31,38 @@ export const DestinationPicker = ({ value, onChange, error }: Props) => {
     }
 
     await new Promise<void>((resolve, reject) => {
+      const rejectWithTimeout = () => reject(new Error("SDK_LOAD_TIMEOUT"));
+      const timeoutId = window.setTimeout(rejectWithTimeout, SDK_LOAD_TIMEOUT_MS);
+      const clearAll = () => window.clearTimeout(timeoutId);
+
       const existingScript = document.getElementById(
         DAUM_POSTCODE_SCRIPT_ID,
       ) as HTMLScriptElement | null;
       if (existingScript) {
+        if (window.daum?.Postcode) {
+          clearAll();
+          resolve();
+          return;
+        }
+
         const onLoad = () => resolve();
         const onError = () => reject(new Error("SDK_LOAD_FAILED"));
-        existingScript.addEventListener("load", onLoad, { once: true });
-        existingScript.addEventListener("error", onError, { once: true });
+        existingScript.addEventListener(
+          "load",
+          () => {
+            clearAll();
+            onLoad();
+          },
+          { once: true },
+        );
+        existingScript.addEventListener(
+          "error",
+          () => {
+            clearAll();
+            onError();
+          },
+          { once: true },
+        );
         return;
       }
 
@@ -45,8 +70,14 @@ export const DestinationPicker = ({ value, onChange, error }: Props) => {
       script.id = DAUM_POSTCODE_SCRIPT_ID;
       script.src = DAUM_POSTCODE_SCRIPT_URL;
       script.async = true;
-      script.onload = () => resolve();
-      script.onerror = () => reject(new Error("SDK_LOAD_FAILED"));
+      script.onload = () => {
+        clearAll();
+        resolve();
+      };
+      script.onerror = () => {
+        clearAll();
+        reject(new Error("SDK_LOAD_FAILED"));
+      };
       document.head.appendChild(script);
     });
 
@@ -54,6 +85,10 @@ export const DestinationPicker = ({ value, onChange, error }: Props) => {
       throw new Error("SDK_NOT_READY");
     }
   }, []);
+
+  useEffect(() => {
+    void loadPostcodeSdk();
+  }, [loadPostcodeSdk]);
 
   const openAddressSearch = async () => {
     setSdkError("");
@@ -76,7 +111,7 @@ export const DestinationPicker = ({ value, onChange, error }: Props) => {
         },
       }).open();
     } catch {
-      setSdkError("주소 검색 준비 중이에요. 잠시 후 다시 시도해주세요.");
+      setSdkError("주소 검색 SDK를 불러오지 못했어요. 잠시 후 다시 시도해주세요.");
     } finally {
       setIsOpening(false);
     }
@@ -96,7 +131,7 @@ export const DestinationPicker = ({ value, onChange, error }: Props) => {
           inputControlClassName,
           "flex items-center justify-between text-left",
           value.baseAddress
-            ? "bg-blue-600/10 text-neutral-950 outline-blue-600/40"
+            ? "bg-[#155DFC1A] text-neutral-950 outline-[#155DFC66]"
             : "text-neutral-950/50",
           message &&
             "bg-neutral-0 outline-rose-500 hover:outline-rose-500 focus:outline-rose-500",

@@ -3,7 +3,6 @@
 import { useMemo, useState } from 'react';
 import { PageHeader } from '@/components/common/page-header';
 import { AdSlot } from '@/components/common/ad-slot';
-import { FloatingHelpButton } from '@/components/common/floating-help-button';
 import { SearchForm } from '@/components/input/search-form';
 import { EtaCard } from '@/components/result/eta-card';
 import { ProgressTable } from '@/components/result/progress-table';
@@ -38,7 +37,6 @@ export default function HomePage() {
         ) : null}
         <AdSlot slot="A" />
       </main>
-      <FloatingHelpButton />
     </div>
   );
 }

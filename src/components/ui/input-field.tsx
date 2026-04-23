@@ -2,7 +2,7 @@ import type { InputHTMLAttributes, ReactNode, SelectHTMLAttributes } from 'react
 import { cn } from '@/lib/cn';
 
 export const inputControlClassName =
-  "h-14 w-full rounded-2xl bg-neutral-0 px-4 py-3.5 text-base font-normal font-['Noto_Sans_KR'] text-neutral-950 outline outline-1 outline-offset-[-1px] outline-neutral-300 transition-colors duration-base ease-standard placeholder:text-neutral-950/50 hover:outline-brand-blue-600 focus:bg-neutral-0 focus:outline-brand-blue-600 disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-500";
+  "h-14 w-full rounded-2xl bg-neutral-0 px-4 py-3.5 text-base font-normal text-neutral-950 outline outline-1 outline-offset-[-1px] outline-neutral-300 transition-colors duration-base ease-standard placeholder:text-neutral-950/50 hover:outline-brand-blue-600 focus:bg-neutral-0 focus:outline-brand-blue-600 disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-500";
 
 type InputFieldProps = {
   id?: string;
@@ -31,16 +31,18 @@ export const InputField = ({
         {label}
         {required ? <span className="sr-only">필수 입력</span> : null}
       </label>
-      {children}
-      {error ? (
-        <p id={messageId} className="text-xs text-state-error-700">
-          {error}
-        </p>
-      ) : hint ? (
-        <p id={messageId} className="text-xs text-neutral-500">
-          {hint}
-        </p>
-      ) : null}
+      <div className={cn(error || hint ? 'w-full space-y-2' : 'w-full')}>
+        {children}
+        {error ? (
+          <p id={messageId} className="w-full text-sm font-normal text-rose-500">
+            {error}
+          </p>
+        ) : hint ? (
+          <p id={messageId} className="w-full text-xs text-neutral-500">
+            {hint}
+          </p>
+        ) : null}
+      </div>
     </div>
   );
 };
@@ -65,7 +67,7 @@ export const TextInput = ({ className, hasError = false, ...props }: TextInputPr
       inputControlClassName,
       hasInputValue(props.value) &&
         !hasError &&
-        'bg-brand-blue-600/10 outline-brand-blue-600/40 hover:outline-brand-blue-600/60 focus:bg-neutral-0 focus:outline-brand-blue-600',
+        'bg-[#155DFC1A] outline-[#155DFC66] hover:outline-[#155DFC66] focus:bg-[#155DFC1A] focus:outline-[#155DFC66]',
       hasError && 'bg-neutral-0 outline-rose-500 hover:outline-rose-500 focus:outline-rose-500',
       className
     )}
@@ -80,7 +82,7 @@ export const SelectInput = ({ className, hasError = false, ...props }: SelectInp
       'appearance-none pr-10',
       hasInputValue(props.value) &&
         !hasError &&
-        'bg-brand-blue-600/10 outline-brand-blue-600/40 hover:outline-brand-blue-600/60 focus:bg-neutral-0 focus:outline-brand-blue-600',
+        'bg-[#155DFC1A] outline-[#155DFC66] hover:outline-[#155DFC66] focus:bg-[#155DFC1A] focus:outline-[#155DFC66]',
       hasError && 'bg-neutral-0 outline-rose-500 hover:outline-rose-500 focus:outline-rose-500',
       className
     )}

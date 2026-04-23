@@ -3,8 +3,10 @@
 import { useMemo, useState } from 'react';
 import type { Progress } from '@/types/tracking';
 import { formatDateTimeKo } from '@/lib/formatter';
-import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
+
+const RESULT_SECTION_CARD_CLASS =
+  'w-full !rounded-2xl !border !border-[#F3F4F6] !bg-white !p-9 !shadow-[0_10px_15px_-3px_rgba(229,231,235,0.50)]';
 
 type Props = {
   progresses: Progress[];
@@ -28,7 +30,11 @@ export const ProgressTable = ({ progresses }: Props) => {
   const latestIndex = sorted.length - 1;
 
   if (!sorted.length) {
-    return <Card preset="content" className="text-body-sm text-neutral-700">진행 이력이 아직 없어요.</Card>;
+    return (
+      <Card preset="content" className={`${RESULT_SECTION_CARD_CLASS} text-body-sm text-neutral-700`}>
+        진행 이력이 아직 없어요.
+      </Card>
+    );
   }
 
   const renderRows = (entries: Array<{ row: Progress; index: number }>, fadedTop = false) =>
@@ -57,9 +63,13 @@ export const ProgressTable = ({ progresses }: Props) => {
             {index < latestIndex ? <span className="absolute top-6 h-[calc(100%+8px)] w-px bg-brand-blue-100" /> : null}
           </div>
           <div className="pb-2">
-            <Badge tone={isCurrent ? 'info' : 'default'} size="sm" emphasis="soft">
+            <span
+              className={`inline-flex items-center justify-center gap-2.5 rounded-[19px] px-3 py-0.5 text-[10px] font-bold leading-5 ${
+                isCurrent ? 'bg-blue-600/10 text-blue-600' : 'bg-gray-300/40 text-gray-500'
+              }`}
+            >
               {row.status}
-            </Badge>
+            </span>
             <p className="mt-2 text-body-md font-semibold text-neutral-700">{row.location ?? '-'}</p>
             <p className="text-caption text-neutral-500">{formatDateTimeKo(row.dateTime)}</p>
             {row.description ? <p className="mt-1 text-caption text-neutral-500">{row.description}</p> : null}
@@ -69,26 +79,37 @@ export const ProgressTable = ({ progresses }: Props) => {
     });
 
   return (
-    <Card preset="content" className="space-y-6">
-      <h2 className="text-heading-h3">배송 현황</h2>
+    <Card preset="content" className={`${RESULT_SECTION_CARD_CLASS} space-y-6`}>
+      <div className="flex w-full items-center self-stretch pr-[23.3125rem]">
+        <h2 className="whitespace-nowrap text-[0.875rem] font-bold leading-5 tracking-[-0.00938rem] text-[#282828]">
+          배송 현황
+        </h2>
+      </div>
       <div className="space-y-6">
         {shouldCollapseOlder ? (
           <div className="space-y-6">
             <button
               type="button"
               className={`relative flex h-12 w-full items-center justify-center overflow-hidden rounded-lg text-body-sm font-semibold ${
-                olderExpanded ? 'border-0 text-neutral-500' : 'border border-neutral-200 text-neutral-700'
+                olderExpanded ? 'text-neutral-500' : 'text-neutral-700'
               }`}
               onClick={() => setOlderExpanded((prev) => !prev)}
             >
-              {!olderExpanded ? (
-                <>
-                  <span className="absolute inset-0 bg-gradient-to-b from-neutral-0/20 via-neutral-0/90 to-neutral-0" />
-                  <span className="relative">이전 배송 이력 {olderEntries.length}개 보기</span>
-                </>
-              ) : (
-                <span>이전 배송 이력 접기</span>
-              )}
+              {!olderExpanded ? <span className="absolute inset-0 bg-gradient-to-b from-neutral-0/20 via-neutral-0/90 to-neutral-0" /> : null}
+              <span className="relative inline-flex items-center justify-start">
+                <span className="flex items-center justify-start gap-1.5">
+                  <span className="text-center text-base font-normal text-gray-400">
+                    {olderExpanded ? '배송 이력 접기' : '배송 이력 전체보기'}
+                  </span>
+                  <span className="relative h-5 w-5 overflow-hidden" aria-hidden>
+                    <img
+                      src="/icons/dropdown.svg"
+                      alt=""
+                      className={`h-5 w-5 ${olderExpanded ? 'rotate-180' : ''}`}
+                    />
+                  </span>
+                </span>
+              </span>
             </button>
             {olderExpanded ? <div className="space-y-6">{renderRows(olderEntries)}</div> : null}
           </div>
