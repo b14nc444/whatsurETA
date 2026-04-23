@@ -3,7 +3,6 @@
 import { useMemo, useState } from 'react';
 import type { Progress } from '@/types/tracking';
 import { formatDateTimeKo } from '@/lib/formatter';
-import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 
 const RESULT_SECTION_CARD_CLASS =
@@ -64,9 +63,13 @@ export const ProgressTable = ({ progresses }: Props) => {
             {index < latestIndex ? <span className="absolute top-6 h-[calc(100%+8px)] w-px bg-brand-blue-100" /> : null}
           </div>
           <div className="pb-2">
-            <Badge tone={isCurrent ? 'info' : 'default'} size="sm" emphasis="soft">
+            <span
+              className={`inline-flex items-center justify-center gap-2.5 rounded-[19px] px-3 py-0.5 text-[10px] font-bold leading-5 ${
+                isCurrent ? 'bg-blue-600/10 text-blue-600' : 'bg-gray-300/40 text-gray-500'
+              }`}
+            >
               {row.status}
-            </Badge>
+            </span>
             <p className="mt-2 text-body-md font-semibold text-neutral-700">{row.location ?? '-'}</p>
             <p className="text-caption text-neutral-500">{formatDateTimeKo(row.dateTime)}</p>
             {row.description ? <p className="mt-1 text-caption text-neutral-500">{row.description}</p> : null}
@@ -93,16 +96,19 @@ export const ProgressTable = ({ progresses }: Props) => {
               onClick={() => setOlderExpanded((prev) => !prev)}
             >
               {!olderExpanded ? <span className="absolute inset-0 bg-gradient-to-b from-neutral-0/20 via-neutral-0/90 to-neutral-0" /> : null}
-              <span className="relative flex items-center gap-1.5">
-                <span className="text-center text-base font-normal tracking-[-0.0195rem] text-[#99A1AF]">
-                  {olderExpanded ? '배송 이력 접기' : '배송 이력 전체보기'}
+              <span className="relative inline-flex items-center justify-start">
+                <span className="flex items-center justify-start gap-1.5">
+                  <span className="text-center text-base font-normal text-gray-400">
+                    {olderExpanded ? '배송 이력 접기' : '배송 이력 전체보기'}
+                  </span>
+                  <span className="relative h-5 w-5 overflow-hidden" aria-hidden>
+                    <img
+                      src="/icons/dropdown.svg"
+                      alt=""
+                      className={`h-5 w-5 ${olderExpanded ? 'rotate-180' : ''}`}
+                    />
+                  </span>
                 </span>
-                <img
-                  src="/icons/dropdown.svg"
-                  alt=""
-                  aria-hidden
-                  className={`h-5 w-5 shrink-0 ${olderExpanded ? 'rotate-180' : ''}`}
-                />
               </span>
             </button>
             {olderExpanded ? <div className="space-y-6">{renderRows(olderEntries)}</div> : null}

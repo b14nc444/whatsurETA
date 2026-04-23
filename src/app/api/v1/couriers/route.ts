@@ -7,6 +7,8 @@ export const runtime = 'nodejs';
 
 const CACHE_KEY = 'couriers:list';
 const CACHE_TTL_SEC = 60 * 30;
+const REDIS_CONNECT_TIMEOUT_MS = 1500;
+const REDIS_IO_TIMEOUT_MS = 800;
 const FALLBACK_COURIERS = [
   { code: 'lotte', name: '롯데택배', enabled: true },
   { code: 'cj', name: 'CJ대한통운', enabled: true },
@@ -20,16 +22,36 @@ const FALLBACK_COURIERS = [
   { code: 'woori', name: '우리택배', enabled: true }
 ];
 
+const withTimeout = async <T>(promise: Promise<T>, timeoutMs: number): Promise<T> =>
+  await Promise.race([
+    promise,
+    new Promise<T>((_, reject) => {
+      setTimeout(() => reject(new Error('TIMEOUT')), timeoutMs);
+    })
+  ]);
+
 export async function GET() {
   try {
-    const redis = await getRedisClient();
-    const cached = await redis.get(CACHE_KEY);
-    if (cached) {
-      const parsed = JSON.parse(cached) as { couriers: unknown; updatedAt: string };
-      return NextResponse.json({
-        couriers: sanitizeAndFilterKoreanCouriers(parsed.couriers),
-        updatedAt: parsed.updatedAt
-      });
+    let redis = null;
+    try {
+      redis = await withTimeout(getRedisClient(), REDIS_CONNECT_TIMEOUT_MS);
+    } catch {
+      redis = null;
+    }
+
+    if (redis) {
+      try {
+        const cached = await withTimeout(redis.get(CACHE_KEY), REDIS_IO_TIMEOUT_MS);
+        if (cached) {
+          const parsed = JSON.parse(cached) as { couriers: unknown; updatedAt: string };
+          return NextResponse.json({
+            couriers: sanitizeAndFilterKoreanCouriers(parsed.couriers),
+            updatedAt: parsed.updatedAt
+          });
+        }
+      } catch {
+        // Redis read timeout/failure should not block courier response.
+      }
     }
 
     const couriers = await fetchCouriersFromProvider();
@@ -37,9 +59,18 @@ export async function GET() {
       couriers,
       updatedAt: new Date().toISOString()
     };
-    await redis.set(CACHE_KEY, JSON.stringify(payload), {
-      EX: CACHE_TTL_SEC
-    });
+    if (redis) {
+      try {
+        await withTimeout(
+          redis.set(CACHE_KEY, JSON.stringify(payload), {
+            EX: CACHE_TTL_SEC
+          }),
+          REDIS_IO_TIMEOUT_MS
+        );
+      } catch {
+        // Redis write timeout/failure should not block courier response.
+      }
+    }
 
     return NextResponse.json(payload);
   } catch {
